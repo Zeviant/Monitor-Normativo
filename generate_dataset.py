@@ -37,8 +37,8 @@ START = datetime(2026, 6, 1, 8, 0)
 def build_rows() -> list[dict[str, str]]:
     rows = []
     # Garantiza que cada error y caso límite aparezca al menos una vez.
-    # A balanced demo: 24 valid reports, every edge case, and only two unknowns.
-    expanded = CASES + [CASES[0]] * 23 + [random.choice(CASES[1:15]) for _ in range(32)]
+    # A balanced demo: 40 valid reports, every edge case, and only two unknowns.
+    expanded = CASES + [CASES[0]] * 39 + [random.choice(CASES[1:15]) for _ in range(44)]
     random.shuffle(expanded)
     for number, (scenario, message) in enumerate(expanded, start=1):
         timestamp = (START + timedelta(hours=number * 4)).isoformat(timespec="minutes")

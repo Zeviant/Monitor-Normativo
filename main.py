@@ -12,101 +12,51 @@ OLLAMA_URL = "http://localhost:11434"
 DEFAULT_MODEL = "llama3.2:latest"
 
 ERROR_CATALOG = {
-    "OK": (
-        "Válido",
-        "Sin incidencias",
-        "El reporte superó todas las validaciones automáticas.",
-        "No se requiere ninguna acción.",
-    ),
+    "OK": ("Válido", "Sin incidencias", "No se requiere ninguna acción."),
     "MISSING_TAX_ID": (
-        "Crítica",
-        "Dato obligatorio ausente",
-        "No se puede identificar a la entidad regulada porque falta su identificación fiscal.",
-        "Añada la identificación fiscal correcta y vuelva a enviar el reporte.",
+        "Crítica", "Dato obligatorio ausente", "Añada la identificación fiscal correcta y vuelva a enviar el reporte."
     ),
     "INVALID_TAX_ID": (
-        "Alta",
-        "Identificador inválido",
-        "La identificación fiscal proporcionada no cumple con el formato aceptado.",
-        "Verifique la identificación fiscal de la entidad en el registro oficial.",
+        "Alta", "Identificador inválido", "Verifique la identificación fiscal de la entidad en el registro oficial."
     ),
     "INVALID_DATE": (
-        "Alta",
-        "Fecha inválida",
-        "Falta una fecha o utiliza un formato que el sistema no acepta.",
-        "Corrija la fecha al formato AAAA-MM-DD y vuelva a enviar el reporte.",
+        "Alta", "Fecha inválida", "Corrija la fecha al formato AAAA-MM-DD y vuelva a enviar el reporte."
     ),
     "FUTURE_DATE": (
-        "Alta",
-        "Período de reporte inválido",
-        "El reporte contiene una fecha de transacción futura.",
-        "Revise la fecha de la transacción y el período reportado.",
+        "Alta", "Período de reporte inválido", "Revise la fecha de la transacción y el período reportado."
     ),
     "LATE_SUBMISSION": (
-        "Alta",
-        "Plazo de presentación",
-        "El reporte se recibió después del plazo de cumplimiento.",
-        "Confirme si se requiere una corrección o notificación por presentación tardía.",
+        "Alta", "Plazo de presentación", "Confirme si se requiere una corrección o notificación por presentación tardía."
     ),
     "TOTAL_MISMATCH": (
-        "Crítica",
-        "Inconsistencia financiera",
-        "El total declarado no coincide con la suma de las transacciones.",
-        "Concilie los importes antes de volver a enviar el reporte.",
+        "Crítica", "Inconsistencia financiera", "Concilie los importes antes de volver a enviar el reporte."
     ),
     "NEGATIVE_AMOUNT": (
-        "Media",
-        "Importe inválido",
-        "Un valor que debe ser igual o mayor que cero fue enviado como importe negativo.",
-        "Compruebe si es un error o si debe declararse como un ajuste.",
+        "Media", "Importe inválido", "Compruebe si es un error o si debe declararse como un ajuste."
     ),
     "INVALID_AMOUNT": (
-        "Alta",
-        "Importe ilegible",
-        "Un campo financiero contiene texto o un formato numérico no admitido.",
-        "Sustitúyalo por un importe numérico válido.",
+        "Alta", "Importe ilegible", "Sustitúyalo por un importe numérico válido."
     ),
     "DUPLICATE_REPORT": (
-        "Media",
-        "Posible duplicado",
-        "Parece que ya se presentó un reporte con el mismo identificador.",
-        "Confirme la presentación anterior antes de enviar otra copia.",
+        "Media", "Posible duplicado", "Confirme la presentación anterior antes de enviar otra copia."
     ),
     "MISSING_REPORT_ID": (
-        "Crítica",
-        "Referencia de reporte ausente",
-        "La entrada no tiene un identificador de reporte y no puede rastrearse ni auditarse correctamente.",
-        "Asigne el identificador correcto y procese de nuevo la entrada.",
+        "Crítica", "Referencia de reporte ausente", "Asigne el identificador correcto y procese de nuevo la entrada."
     ),
     "MALFORMED_TIMESTAMP": (
-        "Media",
-        "Fecha y hora ilegibles",
-        "El sistema no puede determinar cuándo ocurrió el evento.",
-        "Corrija la fecha y hora y verifique la secuencia de presentación.",
+        "Media", "Fecha y hora ilegibles", "Corrija la fecha y hora y verifique la secuencia de presentación."
     ),
     "CONNECTION_TIMEOUT": (
-        "Baja",
-        "Disponibilidad técnica",
-        "El servicio del regulador no respondió; los datos del reporte podrían ser correctos.",
-        "Reintente el envío y escale el incidente si el servicio sigue sin responder.",
+        "Baja", "Disponibilidad técnica", "Reintente el envío y escale el incidente si el servicio sigue sin responder."
     ),
     "MALFORMED_PAYLOAD": (
-        "Alta",
-        "Envío ilegible",
-        "El archivo o mensaje está dañado o no sigue la estructura requerida.",
-        "Genere de nuevo el archivo utilizando el esquema requerido.",
+        "Alta", "Envío ilegible", "Genere de nuevo el archivo utilizando el esquema requerido."
     ),
     "ENCODING_ERROR": (
-        "Media",
-        "Codificación de texto",
-        "Algunos nombres o descripciones contienen caracteres que el sistema receptor no puede leer.",
-        "Exporte el reporte con codificación UTF-8 y vuelva a enviarlo.",
+        "Media", "Codificación de texto", "Exporte el reporte con codificación UTF-8 y vuelva a enviarlo."
     ),
     "UNKNOWN_ERROR": (
-        "Requiere revisión",
-        "Incidencia sin clasificar",
-        "El sistema encontró un error que todavía no figura en el catálogo de reglas.",
-        "Envíe esta entrada a revisión técnica antes de tomar medidas legales.",
+        "Requiere revisión", "Incidencia sin clasificar", "Envíe esta entrada a revisión técnica antes de tomar medidas legales."
     ),
 }
 
@@ -140,11 +90,8 @@ def enrich_logs(raw: pd.DataFrame) -> pd.DataFrame:
     fallback = ERROR_CATALOG["UNKNOWN_ERROR"]
     df["severidad"] = details.map(lambda value: value[0] if isinstance(value, tuple) else fallback[0])
     df["tipo_incidencia"] = details.map(lambda value: value[1] if isinstance(value, tuple) else fallback[1])
-    df["explicacion_negocio"] = details.map(
-        lambda value: value[2] if isinstance(value, tuple) else fallback[2]
-    )
     df["accion_recomendada"] = details.map(
-        lambda value: value[3] if isinstance(value, tuple) else fallback[3]
+        lambda value: value[2] if isinstance(value, tuple) else fallback[2]
     )
     df["resultado"] = df["codigo_error"].map(
         lambda code: "Válido" if code == "OK" else "Con incidencias"
@@ -197,15 +144,15 @@ def generate_legal_explanation(row: pd.Series, model: str) -> str:
 Un sistema interno procesa reportes de cumplimiento CRC y genera logs técnicos cuando una validación falla. El equipo legal debe comprender el problema y decidir el siguiente paso, pero no tiene conocimientos técnicos. La explicación se utilizará como apoyo interno y no como asesoramiento jurídico definitivo.
 
 # R — Rol
-Actúa como especialista interno en cumplimiento normativo con experiencia traduciendo errores de sistemas a lenguaje de negocio para equipos legales.
+Actúa como especialista interno en cumplimiento normativo con experiencia traduciendo errores de sistemas a lenguaje de negocio simple para equipos legales.
 
 # I — Intención
 Transforma el error técnico seleccionado en una explicación breve, comprensible y accionable para el equipo legal. El objetivo es que pueda entender qué sucedió, valorar su posible impacto en cumplimiento y conocer el siguiente paso recomendado.
 
-# S — Steps (Pasos)
+# S — Separación
 1. Lee exclusivamente los datos del log proporcionado.
 2. Identifica el problema descrito sin cambiar el tipo ni la severidad aprobados.
-3. Traduce el problema a lenguaje sencillo y evita jerga técnica innecesaria.
+3. Interpreta el código y el mensaje técnico usando el tipo de incidencia aprobado, pero nunca copies sus frases literalmente.
 4. Explica únicamente el posible impacto para el proceso de cumplimiento.
 5. Propón una acción concreta basada en la acción aprobada.
 6. Si faltan datos o el error no está claro, indica que se necesita revisión técnica.
@@ -215,45 +162,47 @@ Datos que debes analizar:
 - Mensaje técnico original: {row['mensaje_tecnico']}
 - Tipo de incidencia aprobado: {row['tipo_incidencia']}
 - Severidad aprobada: {row['severidad']}
-- Contexto de negocio aprobado: {row['explicacion_negocio']}
 - Acción base aprobada: {row['accion_recomendada']}
 
 # P — Presentación
-Responde completamente en español, con tono profesional, claro y prudente. Limita cada apartado a un máximo de dos frases breves y utiliza exactamente esta estructura, sin añadir otros apartados:
+Responde completamente en español, con tono profesional, natural y muy sencillo. Escribe como si se lo explicaras verbalmente a un compañero sin conocimientos de informática. Limita cada apartado a un máximo de dos frases breves y utiliza exactamente esta estructura, sin añadir otros apartados:
 
-**Qué ocurrió**
+**Qué ocurrió:**
 [Explicación sencilla]
 
-**Impacto para cumplimiento**
+**Impacto para cumplimiento:**
 [Impacto posible]
 
-**Acción recomendada**
+**Acción recomendada:**
 [Siguiente paso concreto]
 
 # E — Evaluación
 Antes de responder, comprueba silenciosamente que la salida:
 - Sea comprensible para una persona del equipo legal sin conocimientos técnicos.
+- No copie ni cite el mensaje técnico: exprese siempre su significado con palabras nuevas y sencillas.
+- Utilice palabras cotidianas y frases de aproximadamente 20 palabras o menos.
 - Respete el tipo, la severidad y la acción aprobados.
 - No invente leyes, artículos, multas, sanciones, fechas límite, obligaciones ni hechos.
 - No presente posibilidades como certezas.
+- No utilice bajo ninguna circunstancia términos como «unicidad», «violación de unicidad», «restricción», «payload», «checksum», «endpoint» o «timestamp». Sustitúyalos por su significado cotidiano.
 - Incluya exactamente los tres encabezados solicitados.
 Si alguna condición no se cumple, corrige la respuesta antes de entregarla. No muestres esta evaluación.
 
 # Few-shot — Ejemplos de referencia
-Ejemplo 1 — Inconsistencia financiera
+Ejemplo 1 — Reporte duplicado
 Entrada:
-- Código: TOTAL_MISMATCH
-- Mensaje: declared_total=9850.00 transaction_sum=9480.00
+- Código: DUPLICATE_REPORT
+- Mensaje: Violación de unicidad para id_reporte
 
 Salida:
 **Qué ocurrió**
-El total declarado no coincide con la suma de las transacciones incluidas en el reporte.
+Este reporte parece haberse enviado anteriormente con el mismo identificador.
 
 **Impacto para cumplimiento**
-Esta diferencia puede impedir que el reporte supere la validación y sea presentado correctamente.
+Enviar otra copia podría duplicar la información o hacer que el sistema rechace el reporte.
 
 **Acción recomendada**
-Concilie los importes y corrija el total antes de volver a enviar el reporte.
+Compruebe la presentación anterior y vuelva a enviarlo solo si es necesario.
 
 Ejemplo 2 — Disponibilidad técnica
 Entrada:
@@ -268,7 +217,9 @@ El servicio del regulador no respondió dentro del tiempo esperado, por lo que e
 El reporte podría seguir pendiente de presentación, aunque este error no indica por sí mismo que sus datos sean incorrectos.
 
 **Acción recomendada**
-Reintente el envío y solicite apoyo técnico si el servicio continúa sin responder."""
+Reintente el envío y solicite apoyo técnico si el servicio continúa sin responder.
+
+Imita el nivel de sencillez de estos ejemplos. No reutilices la jerga del mensaje técnico en la respuesta final."""
     response = requests.post(
         f"{OLLAMA_URL}/api/generate",
         json={
