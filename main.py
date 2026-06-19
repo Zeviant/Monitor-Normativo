@@ -1,10 +1,14 @@
 from pathlib import Path
+import json
 
 import pandas as pd
+import requests
 import streamlit as st
 
 
 DATA_FILE = Path(__file__).parent / "data" / "synthetic_compliance_logs.csv"
+OLLAMA_URL = "http://localhost:11434"
+DEFAULT_MODEL = "llama3.2:latest"
 
 ERROR_CATALOG = {
     "OK": (
@@ -147,8 +151,117 @@ def enrich_logs(raw: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-@st.cache_data
+def get_ollama_models() -> list[str]:
+    """Devuelve los modelos locales disponibles o una lista vacía si Ollama no responde."""
+    try:
+        response = requests.get(f"{OLLAMA_URL}/api/tags", timeout=3)
+        response.raise_for_status()
+        return [model["name"] for model in response.json().get("models", [])]
+    except requests.RequestException:
+        return []
+
+
+def ollama_is_running() -> bool:
+    """Comprueba si el servicio local de Ollama está disponible."""
+    try:
+        return requests.get(f"{OLLAMA_URL}/api/tags", timeout=3).ok
+    except requests.RequestException:
+        return False
+
+
+def download_ollama_model(model: str):
+    """Descarga un modelo y produce actualizaciones de estado y progreso."""
+    with requests.post(
+        f"{OLLAMA_URL}/api/pull",
+        json={"name": model, "stream": True},
+        stream=True,
+        timeout=(5, 1800),
+    ) as response:
+        response.raise_for_status()
+        for line in response.iter_lines():
+            if not line:
+                continue
+            update = json.loads(line)
+            if update.get("error"):
+                raise RuntimeError(update["error"])
+            total = update.get("total", 0)
+            completed = update.get("completed", 0)
+            progress = completed / total if total else None
+            yield update.get("status", "Descargando..."), progress
+
+
+def generate_legal_explanation(row: pd.Series, model: str) -> str:
+    """Solicita a Ollama una traducción del error técnico para el equipo legal."""
+    prompt = f"""# C — Contexto
+Un sistema interno procesa reportes de cumplimiento CRC y genera logs técnicos cuando una validación falla. El equipo legal debe comprender el problema y decidir el siguiente paso, pero no tiene conocimientos técnicos. La explicación se utilizará como apoyo interno y no como asesoramiento jurídico definitivo.
+
+# R — Rol
+Actúa como especialista interno en cumplimiento normativo con experiencia traduciendo errores de sistemas a lenguaje de negocio para equipos legales.
+
+# I — Instrucciones
+1. Explica qué ocurrió usando lenguaje sencillo.
+2. Describe únicamente el posible impacto para el proceso de cumplimiento.
+3. Propón una acción concreta basada en la acción aprobada proporcionada.
+4. Si faltan datos o el error no está claro, solicita revisión técnica.
+5. Responde completamente en español.
+
+# S — Especificidad
+Analiza exclusivamente estos datos:
+- Código de error: {row['codigo_error']}
+- Mensaje técnico original: {row['mensaje_tecnico']}
+- Tipo de incidencia aprobado: {row['tipo_incidencia']}
+- Severidad aprobada: {row['severidad']}
+- Contexto de negocio aprobado: {row['explicacion_negocio']}
+- Acción base aprobada: {row['accion_recomendada']}
+
+Utiliza exactamente esta estructura, sin añadir otros apartados:
+**Qué ocurrió**
+[Explicación sencilla]
+
+**Impacto para cumplimiento**
+[Impacto posible]
+
+**Acción recomendada**
+[Siguiente paso concreto]
+
+# P — Rendimiento
+- Escribe para una persona del equipo legal sin conocimientos técnicos.
+- Mantén un tono profesional, claro y prudente.
+- Limita cada apartado a un máximo de dos frases breves.
+- Respeta el tipo, la severidad y la acción aprobados; no los contradigas.
+- No inventes leyes, artículos, multas, sanciones, fechas límite, obligaciones ni hechos.
+- No presentes posibilidades como certezas y evita jerga técnica innecesaria.
+
+# E — Ejemplo
+Entrada de ejemplo:
+- Código: TOTAL_MISMATCH
+- Mensaje: declared_total=9850.00 transaction_sum=9480.00
+
+Salida esperada:
+**Qué ocurrió**
+El total declarado no coincide con la suma de las transacciones incluidas en el reporte.
+
+**Impacto para cumplimiento**
+Esta diferencia puede impedir que el reporte supere la validación y sea presentado correctamente.
+
+**Acción recomendada**
+Concilie los importes y corrija el total antes de volver a enviar el reporte."""
+    response = requests.post(
+        f"{OLLAMA_URL}/api/generate",
+        json={
+            "model": model,
+            "prompt": prompt,
+            "stream": False,
+            "options": {"temperature": 0.2},
+        },
+        timeout=120,
+    )
+    response.raise_for_status()
+    return response.json()["response"].strip()
+
+
 def load_sample_data() -> pd.DataFrame:
+    # The sample is small; reading it again prevents stale data after regeneration.
     return pd.read_csv(DATA_FILE, dtype=str, keep_default_na=False)
 
 
@@ -202,7 +315,34 @@ def main() -> None:
     with st.sidebar:
         st.header("Fuente de datos")
         uploaded = st.file_uploader("Cargar un archivo de registros", type=["csv"])
-        st.caption("Use los datos de ejemplo incluidos o cargue un CSV con las mismas columnas.")
+        st.caption("Cada registro incluye el código y mensaje generados por el sistema CRC.")
+        st.header("Modelo local")
+        models = get_ollama_models()
+        ollama_running = bool(models) or ollama_is_running()
+        if ollama_running and DEFAULT_MODEL not in models:
+            selected_model = ""
+            st.warning(f"El modelo `{DEFAULT_MODEL}` todavía no está descargado.")
+            if st.button("Descargar modelo local", type="primary", use_container_width=True):
+                progress_bar = st.progress(0)
+                status_text = st.empty()
+                try:
+                    for status, progress in download_ollama_model(DEFAULT_MODEL):
+                        status_text.caption(status)
+                        if progress is not None:
+                            progress_bar.progress(min(progress, 1.0))
+                    st.success("Modelo descargado correctamente.")
+                    st.rerun()
+                except (requests.RequestException, RuntimeError, ValueError) as exc:
+                    st.error(f"No se pudo descargar el modelo: {exc}")
+        elif models:
+            default_model = models.index(DEFAULT_MODEL) if DEFAULT_MODEL in models else 0
+            selected_model = st.selectbox("Modelo de Ollama", models, index=default_model)
+            st.success("Ollama conectado")
+        else:
+            selected_model = ""
+            st.warning("Ollama no está instalado o no está activo.")
+            st.markdown("[Descargar Ollama](https://ollama.com/download)")
+            st.caption("Después de instalarlo, vuelva a cargar esta página para descargar el modelo.")
 
     try:
         raw = pd.read_csv(uploaded, dtype=str, keep_default_na=False) if uploaded else load_sample_data()
@@ -248,8 +388,8 @@ def main() -> None:
                 "resultado",
                 "severidad",
                 "tipo_incidencia",
-                "explicacion_negocio",
-                "accion_recomendada",
+                "codigo_error",
+                "mensaje_tecnico",
             ]
         ],
         use_container_width=True,
@@ -274,8 +414,29 @@ def main() -> None:
         st.write(f"Fuente: {row['fuente']} · Código de error: `{row['codigo_error']}`")
     with right:
         st.markdown(f"**{row['severidad']} — {row['tipo_incidencia']}**")
-        st.write(row["explicacion_negocio"])
-        st.info("Acción recomendada: " + row["accion_recomendada"])
+        if row["codigo_error"] == "OK":
+            st.success("El reporte superó las validaciones. No necesita explicación adicional.")
+        else:
+            explanation_key = f"{selected}:{row['codigo_error']}:{row['mensaje_tecnico']}"
+            if st.button(
+                "Generar explicación con IA",
+                type="primary",
+                disabled=not selected_model,
+                use_container_width=True,
+            ):
+                try:
+                    with st.spinner("Traduciendo el error con el modelo local..."):
+                        st.session_state.setdefault("ai_explanations", {})[explanation_key] = (
+                            generate_legal_explanation(row, selected_model)
+                        )
+                except (requests.RequestException, KeyError) as exc:
+                    st.error(f"No se pudo generar la explicación: {exc}")
+
+            generated = st.session_state.get("ai_explanations", {}).get(explanation_key)
+            if generated:
+                st.markdown(generated)
+            else:
+                st.caption("Pulse el botón para traducir este error a lenguaje de negocio.")
 
     st.download_button(
         "Descargar resultados analizados",

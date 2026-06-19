@@ -37,22 +37,25 @@ START = datetime(2026, 6, 1, 8, 0)
 def build_rows() -> list[dict[str, str]]:
     rows = []
     # Garantiza que cada error y caso límite aparezca al menos una vez.
-    expanded = CASES + [random.choice(CASES[:15]) for _ in range(55)]
+    # A balanced demo: 24 valid reports, every edge case, and only two unknowns.
+    expanded = CASES + [CASES[0]] * 23 + [random.choice(CASES[1:15]) for _ in range(32)]
     random.shuffle(expanded)
-    for number, (code, message) in enumerate(expanded, start=1):
+    for number, (scenario, message) in enumerate(expanded, start=1):
         timestamp = (START + timedelta(hours=number * 4)).isoformat(timespec="minutes")
         report_id = f"CRC-2026-{number:04d}"
-        if code == "MISSING_REPORT_ID":
+        if scenario == "MISSING_REPORT_ID":
             report_id = ""
-        if code == "MALFORMED_TIMESTAMP":
+        if scenario == "MALFORMED_TIMESTAMP":
             timestamp = "not-a-date"
+        if scenario == "DUPLICATE_REPORT":
+            report_id = "CRC-2026-0001"
         rows.append(
             {
                 "fecha_hora": timestamp,
                 "id_reporte": report_id,
                 "entidad": random.choice(ENTITIES),
                 "fuente": random.choice(SOURCES),
-                "codigo_error": code,
+                "codigo_error": scenario,
                 "mensaje_tecnico": message,
             }
         )

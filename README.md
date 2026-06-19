@@ -16,7 +16,9 @@ La aplicación se abrirá en el navegador. Utiliza por defecto los datos sintét
 
 - Conteo de entradas válidas, problemáticas y críticas
 - Gráficos de resultados, severidad y categorías de incidencia
-- Explicaciones claras y acciones recomendadas
+- Traducción bajo demanda de errores técnicos mediante un modelo local de Ollama
+- Severidad y tipo de incidencia controlados por un catálogo de reglas de cumplimiento
+- Explicaciones claras y acciones recomendadas para el equipo legal
 - Filtros, búsqueda, carga de CSV y descarga de resultados
 - Casos límite: identificadores ausentes, fechas e importes inválidos, duplicados, archivos dañados, tiempos de espera, errores de codificación y errores desconocidos
 
@@ -24,4 +26,16 @@ La aplicación se abrirá en el navegador. Utiliza por defecto los datos sintét
 
 `fecha_hora`, `id_reporte`, `entidad`, `fuente`, `codigo_error`, `mensaje_tecnico`
 
-Este MVP utiliza un catálogo transparente de reglas en lugar de un servicio externo de IA. En producción, ELK podría suministrar los registros y un modelo de lenguaje aprobado podría explicar errores nuevos, manteniendo revisión humana para los casos inciertos.
+El sistema CRC proporciona el código y mensaje técnico. El monitor utiliza reglas aprobadas para asignar el tipo y la severidad, y un modelo local genera una explicación sencilla cuando el usuario la solicita.
+
+## IA local con Ollama
+
+Instale Ollama y descargue un modelo ligero, por ejemplo:
+
+```powershell
+ollama pull llama3.2
+ollama serve
+```
+
+Ollama procesa los logs localmente a través de `http://localhost:11434`; no se necesita una clave de API ni se envían datos a un servicio en la nube.
+Si Ollama está activo pero falta `llama3.2`, el panel **Modelo local** permite descargarlo con un botón y muestra el progreso.

@@ -1,73 +1,73 @@
 fecha_hora,id_reporte,entidad,fuente,codigo_error,mensaje_tecnico
-2026-06-01T12:00,CRC-2026-0001,Finanzas Contoso,API del regulador,DUPLICATE_REPORT,Violación de unicidad para id_reporte
-2026-06-01T16:00,CRC-2026-0002,Industrias Fabrikam,Portal CRC,OK,Validación completada correctamente
-2026-06-01T20:00,CRC-2026-0003,Comercial Norte,Portal CRC,LATE_SUBMISSION,La recepción supera el plazo legal por 4 días
-2026-06-02T00:00,CRC-2026-0004,Finanzas Contoso,API del regulador,MISSING_TAX_ID,ErrorValidacion: identificacion_fiscal es nula
-not-a-date,CRC-2026-0005,Finanzas Contoso,API del regulador,MALFORMED_TIMESTAMP,No se puede interpretar la fecha del evento 'ayer'
-2026-06-02T08:00,CRC-2026-0006,Industrias Fabrikam,API del regulador,INVALID_AMOUNT,No se pudo interpretar el importe 'novecientos'
-2026-06-02T12:00,CRC-2026-0007,Comercial Norte,Importación por lotes,CONNECTION_TIMEOUT,POST /regulador/envios agotó el tiempo tras 30 s
-2026-06-02T16:00,CRC-2026-0008,Industrias Fabrikam,API del regulador,CONNECTION_TIMEOUT,POST /regulador/envios agotó el tiempo tras 30 s
-2026-06-02T20:00,CRC-2026-0009,Industrias Fabrikam,API del regulador,INVALID_DATE,La fecha_presentacion '20/99/2026' no cumple ISO-8601
-not-a-date,CRC-2026-0010,Grupo Alpino,API del regulador,MALFORMED_TIMESTAMP,No se puede interpretar la fecha del evento 'ayer'
-2026-06-03T04:00,CRC-2026-0011,Comercial Norte,API del regulador,INVALID_AMOUNT,No se pudo interpretar el importe 'novecientos'
-2026-06-03T08:00,CRC-2026-0012,Comercial Norte,API del regulador,OK,Validación completada correctamente
-not-a-date,CRC-2026-0013,Grupo Alpino,API del regulador,MALFORMED_TIMESTAMP,No se puede interpretar la fecha del evento 'ayer'
-2026-06-03T16:00,CRC-2026-0014,Grupo Alpino,Portal CRC,DUPLICATE_REPORT,Violación de unicidad para id_reporte
-2026-06-03T20:00,CRC-2026-0015,Grupo Alpino,Importación por lotes,,El proceso terminó sin devolver un código de error
-2026-06-04T00:00,CRC-2026-0016,Finanzas Contoso,Importación por lotes,FUTURE_DATE,La fecha_transaccion es posterior a la fecha de procesamiento
-2026-06-04T04:00,CRC-2026-0017,Comercial Norte,API del regulador,MALFORMED_PAYLOAD,"ErrorJSON: se esperaba una coma en la línea 1, columna 84"
-2026-06-04T08:00,CRC-2026-0018,Grupo Alpino,API del regulador,INVALID_DATE,La fecha_presentacion '20/99/2026' no cumple ISO-8601
-2026-06-04T12:00,CRC-2026-0019,Finanzas Contoso,API del regulador,DUPLICATE_REPORT,Violación de unicidad para id_reporte
-2026-06-04T16:00,CRC-2026-0020,Comercial Norte,API del regulador,MISSING_TAX_ID,ErrorValidacion: identificacion_fiscal es nula
-2026-06-04T20:00,CRC-2026-0021,Grupo Alpino,API del regulador,INVALID_AMOUNT,No se pudo interpretar el importe 'novecientos'
-2026-06-05T00:00,CRC-2026-0022,Finanzas Contoso,Portal CRC,LATE_SUBMISSION,La recepción supera el plazo legal por 4 días
-2026-06-05T04:00,CRC-2026-0023,Grupo Alpino,Portal CRC,INVALID_DATE,La fecha_presentacion '20/99/2026' no cumple ISO-8601
-not-a-date,CRC-2026-0024,Comercial Norte,API del regulador,MALFORMED_TIMESTAMP,No se puede interpretar la fecha del evento 'ayer'
-2026-06-05T12:00,CRC-2026-0025,Grupo Alpino,Importación por lotes,NEGATIVE_AMOUNT,importe_bruto=-450.00 incumple el mínimo de 0
-2026-06-05T16:00,CRC-2026-0026,Comercial Norte,Portal CRC,MISSING_TAX_ID,ErrorValidacion: identificacion_fiscal es nula
-2026-06-05T20:00,,Grupo Alpino,Importación por lotes,MISSING_REPORT_ID,El id_reporte no estaba presente en el envío
-2026-06-06T00:00,CRC-2026-0028,Finanzas Contoso,Portal CRC,MISSING_TAX_ID,ErrorValidacion: identificacion_fiscal es nula
-2026-06-06T04:00,CRC-2026-0029,Finanzas Contoso,API del regulador,MISSING_TAX_ID,ErrorValidacion: identificacion_fiscal es nula
-2026-06-06T08:00,CRC-2026-0030,Comercial Norte,Portal CRC,OK,Validación completada correctamente
-2026-06-06T12:00,CRC-2026-0031,Industrias Fabrikam,Portal CRC,FUTURE_DATE,La fecha_transaccion es posterior a la fecha de procesamiento
-2026-06-06T16:00,CRC-2026-0032,Finanzas Contoso,Portal CRC,FUTURE_DATE,La fecha_transaccion es posterior a la fecha de procesamiento
-2026-06-06T20:00,CRC-2026-0033,Industrias Fabrikam,API del regulador,OK,Validación completada correctamente
-2026-06-07T00:00,CRC-2026-0034,Finanzas Contoso,Importación por lotes,NEGATIVE_AMOUNT,importe_bruto=-450.00 incumple el mínimo de 0
-2026-06-07T04:00,CRC-2026-0035,Industrias Fabrikam,Portal CRC,LATE_SUBMISSION,La recepción supera el plazo legal por 4 días
-2026-06-07T08:00,CRC-2026-0036,Finanzas Contoso,API del regulador,INVALID_AMOUNT,No se pudo interpretar el importe 'novecientos'
-2026-06-07T12:00,CRC-2026-0037,Grupo Alpino,Importación por lotes,MISSING_TAX_ID,ErrorValidacion: identificacion_fiscal es nula
-2026-06-07T16:00,CRC-2026-0038,Grupo Alpino,Importación por lotes,OK,Validación completada correctamente
-2026-06-07T20:00,CRC-2026-0039,Industrias Fabrikam,Portal CRC,TOTAL_MISMATCH,total_declarado=9850.00 suma_transacciones=9480.00
-2026-06-08T00:00,CRC-2026-0040,Finanzas Contoso,Portal CRC,INVALID_DATE,La fecha_presentacion '20/99/2026' no cumple ISO-8601
-not-a-date,CRC-2026-0041,Comercial Norte,Importación por lotes,MALFORMED_TIMESTAMP,No se puede interpretar la fecha del evento 'ayer'
-2026-06-08T08:00,CRC-2026-0042,Comercial Norte,API del regulador,OK,Validación completada correctamente
-2026-06-08T12:00,CRC-2026-0043,Finanzas Contoso,API del regulador,MALFORMED_PAYLOAD,"ErrorJSON: se esperaba una coma en la línea 1, columna 84"
-2026-06-08T16:00,CRC-2026-0044,Finanzas Contoso,Portal CRC,INVALID_DATE,La fecha_presentacion '20/99/2026' no cumple ISO-8601
-2026-06-08T20:00,CRC-2026-0045,Comercial Norte,API del regulador,INVALID_TAX_ID,La identificación fiscal '12-ABC' no superó la validación
-2026-06-09T00:00,CRC-2026-0046,Comercial Norte,Portal CRC,CONNECTION_TIMEOUT,POST /regulador/envios agotó el tiempo tras 30 s
-2026-06-09T04:00,CRC-2026-0047,Comercial Norte,Portal CRC,INVALID_DATE,La fecha_presentacion '20/99/2026' no cumple ISO-8601
-2026-06-09T08:00,CRC-2026-0048,Grupo Alpino,Portal CRC,DUPLICATE_REPORT,Violación de unicidad para id_reporte
-2026-06-09T12:00,CRC-2026-0049,Finanzas Contoso,Importación por lotes,ENCODING_ERROR,ErrorUnicode al leer el nombre de la entidad
-2026-06-09T16:00,,Industrias Fabrikam,Portal CRC,MISSING_REPORT_ID,El id_reporte no estaba presente en el envío
-2026-06-09T20:00,CRC-2026-0051,Finanzas Contoso,API del regulador,INVALID_TAX_ID,La identificación fiscal '12-ABC' no superó la validación
-2026-06-10T00:00,CRC-2026-0052,Industrias Fabrikam,Portal CRC,TOTAL_MISMATCH,total_declarado=9850.00 suma_transacciones=9480.00
-2026-06-10T04:00,CRC-2026-0053,Industrias Fabrikam,Importación por lotes,CONNECTION_TIMEOUT,POST /regulador/envios agotó el tiempo tras 30 s
-2026-06-10T08:00,CRC-2026-0054,Finanzas Contoso,Portal CRC,TOTAL_MISMATCH,total_declarado=9850.00 suma_transacciones=9480.00
-2026-06-10T12:00,CRC-2026-0055,Comercial Norte,API del regulador,MISSING_TAX_ID,ErrorValidacion: identificacion_fiscal es nula
-2026-06-10T16:00,CRC-2026-0056,Industrias Fabrikam,Importación por lotes,INVALID_DATE,La fecha_presentacion '20/99/2026' no cumple ISO-8601
-2026-06-10T20:00,CRC-2026-0057,Industrias Fabrikam,Importación por lotes,ENCODING_ERROR,ErrorUnicode al leer el nombre de la entidad
-2026-06-11T00:00,CRC-2026-0058,Industrias Fabrikam,API del regulador,INVALID_AMOUNT,No se pudo interpretar el importe 'novecientos'
-2026-06-11T04:00,CRC-2026-0059,Comercial Norte,API del regulador,INVALID_TAX_ID,La identificación fiscal '12-ABC' no superó la validación
-2026-06-11T08:00,CRC-2026-0060,Comercial Norte,Portal CRC,FUTURE_DATE,La fecha_transaccion es posterior a la fecha de procesamiento
-2026-06-11T12:00,,Industrias Fabrikam,API del regulador,MISSING_REPORT_ID,El id_reporte no estaba presente en el envío
-2026-06-11T16:00,CRC-2026-0062,Grupo Alpino,Portal CRC,CONNECTION_TIMEOUT,POST /regulador/envios agotó el tiempo tras 30 s
-2026-06-11T20:00,CRC-2026-0063,Finanzas Contoso,Portal CRC,MISSING_TAX_ID,ErrorValidacion: identificacion_fiscal es nula
-not-a-date,CRC-2026-0064,Finanzas Contoso,API del regulador,MALFORMED_TIMESTAMP,No se puede interpretar la fecha del evento 'ayer'
-2026-06-12T04:00,CRC-2026-0065,Industrias Fabrikam,Portal CRC,INVALID_DATE,La fecha_presentacion '20/99/2026' no cumple ISO-8601
-2026-06-12T08:00,,Industrias Fabrikam,Portal CRC,MISSING_REPORT_ID,El id_reporte no estaba presente en el envío
-2026-06-12T12:00,CRC-2026-0067,Grupo Alpino,Importación por lotes,TOTAL_MISMATCH,total_declarado=9850.00 suma_transacciones=9480.00
-2026-06-12T16:00,CRC-2026-0068,Finanzas Contoso,Portal CRC,NEW_VENDOR_ERROR_777,Respuesta inesperada del proveedor: código 777
-2026-06-12T20:00,CRC-2026-0069,Industrias Fabrikam,API del regulador,INVALID_TAX_ID,La identificación fiscal '12-ABC' no superó la validación
-2026-06-13T00:00,CRC-2026-0070,Comercial Norte,Portal CRC,LATE_SUBMISSION,La recepción supera el plazo legal por 4 días
-2026-06-13T04:00,CRC-2026-0071,Comercial Norte,Portal CRC,TOTAL_MISMATCH,total_declarado=9850.00 suma_transacciones=9480.00
-not-a-date,CRC-2026-0072,Finanzas Contoso,Portal CRC,MALFORMED_TIMESTAMP,No se puede interpretar la fecha del evento 'ayer'
+2026-06-01T12:00,CRC-2026-0001,Finanzas Contoso,API del regulador,OK,Validación completada correctamente
+2026-06-01T16:00,CRC-2026-0002,Grupo Alpino,Portal CRC,FUTURE_DATE,La fecha_transaccion es posterior a la fecha de procesamiento
+2026-06-01T20:00,CRC-2026-0003,Industrias Fabrikam,Importación por lotes,MALFORMED_PAYLOAD,"ErrorJSON: se esperaba una coma en la línea 1, columna 84"
+2026-06-02T00:00,CRC-2026-0001,Industrias Fabrikam,Portal CRC,DUPLICATE_REPORT,Violación de unicidad para id_reporte
+2026-06-02T04:00,CRC-2026-0005,Grupo Alpino,Portal CRC,OK,Validación completada correctamente
+2026-06-02T08:00,CRC-2026-0006,Finanzas Contoso,API del regulador,OK,Validación completada correctamente
+2026-06-02T12:00,CRC-2026-0007,Grupo Alpino,API del regulador,MISSING_TAX_ID,ErrorValidacion: identificacion_fiscal es nula
+2026-06-02T16:00,CRC-2026-0001,Industrias Fabrikam,API del regulador,DUPLICATE_REPORT,Violación de unicidad para id_reporte
+2026-06-02T20:00,CRC-2026-0009,Industrias Fabrikam,Importación por lotes,NEW_VENDOR_ERROR_777,Respuesta inesperada del proveedor: código 777
+2026-06-03T00:00,,Finanzas Contoso,Portal CRC,MISSING_REPORT_ID,El id_reporte no estaba presente en el envío
+2026-06-03T04:00,CRC-2026-0001,Industrias Fabrikam,Portal CRC,DUPLICATE_REPORT,Violación de unicidad para id_reporte
+2026-06-03T08:00,,Comercial Norte,Portal CRC,MISSING_REPORT_ID,El id_reporte no estaba presente en el envío
+2026-06-03T12:00,CRC-2026-0001,Finanzas Contoso,API del regulador,DUPLICATE_REPORT,Violación de unicidad para id_reporte
+2026-06-03T16:00,CRC-2026-0014,Finanzas Contoso,API del regulador,OK,Validación completada correctamente
+2026-06-03T20:00,CRC-2026-0015,Industrias Fabrikam,API del regulador,CONNECTION_TIMEOUT,POST /regulador/envios agotó el tiempo tras 30 s
+2026-06-04T00:00,CRC-2026-0016,Comercial Norte,Importación por lotes,OK,Validación completada correctamente
+2026-06-04T04:00,CRC-2026-0017,Industrias Fabrikam,API del regulador,INVALID_TAX_ID,La identificación fiscal '12-ABC' no superó la validación
+2026-06-04T08:00,CRC-2026-0018,Industrias Fabrikam,API del regulador,INVALID_TAX_ID,La identificación fiscal '12-ABC' no superó la validación
+2026-06-04T12:00,CRC-2026-0019,Grupo Alpino,API del regulador,CONNECTION_TIMEOUT,POST /regulador/envios agotó el tiempo tras 30 s
+2026-06-04T16:00,CRC-2026-0020,Comercial Norte,API del regulador,OK,Validación completada correctamente
+2026-06-04T20:00,CRC-2026-0021,Comercial Norte,API del regulador,MISSING_TAX_ID,ErrorValidacion: identificacion_fiscal es nula
+2026-06-05T00:00,CRC-2026-0022,Grupo Alpino,API del regulador,INVALID_TAX_ID,La identificación fiscal '12-ABC' no superó la validación
+2026-06-05T04:00,CRC-2026-0023,Grupo Alpino,Portal CRC,FUTURE_DATE,La fecha_transaccion es posterior a la fecha de procesamiento
+2026-06-05T08:00,CRC-2026-0024,Grupo Alpino,Importación por lotes,OK,Validación completada correctamente
+not-a-date,CRC-2026-0025,Finanzas Contoso,Importación por lotes,MALFORMED_TIMESTAMP,No se puede interpretar la fecha del evento 'ayer'
+2026-06-05T16:00,CRC-2026-0026,Comercial Norte,API del regulador,CONNECTION_TIMEOUT,POST /regulador/envios agotó el tiempo tras 30 s
+2026-06-05T20:00,CRC-2026-0027,Grupo Alpino,API del regulador,OK,Validación completada correctamente
+2026-06-06T00:00,CRC-2026-0028,Finanzas Contoso,API del regulador,INVALID_AMOUNT,No se pudo interpretar el importe 'novecientos'
+2026-06-06T04:00,CRC-2026-0029,Comercial Norte,API del regulador,OK,Validación completada correctamente
+2026-06-06T08:00,CRC-2026-0030,Grupo Alpino,API del regulador,INVALID_DATE,La fecha_presentacion '20/99/2026' no cumple ISO-8601
+2026-06-06T12:00,CRC-2026-0031,Finanzas Contoso,Portal CRC,MISSING_TAX_ID,ErrorValidacion: identificacion_fiscal es nula
+2026-06-06T16:00,CRC-2026-0032,Grupo Alpino,Portal CRC,INVALID_DATE,La fecha_presentacion '20/99/2026' no cumple ISO-8601
+2026-06-06T20:00,CRC-2026-0033,Comercial Norte,API del regulador,LATE_SUBMISSION,La recepción supera el plazo legal por 4 días
+2026-06-07T00:00,CRC-2026-0034,Grupo Alpino,Importación por lotes,MISSING_TAX_ID,ErrorValidacion: identificacion_fiscal es nula
+2026-06-07T04:00,CRC-2026-0035,Comercial Norte,Portal CRC,ENCODING_ERROR,ErrorUnicode al leer el nombre de la entidad
+not-a-date,CRC-2026-0036,Grupo Alpino,Importación por lotes,MALFORMED_TIMESTAMP,No se puede interpretar la fecha del evento 'ayer'
+2026-06-07T12:00,CRC-2026-0037,Finanzas Contoso,Portal CRC,FUTURE_DATE,La fecha_transaccion es posterior a la fecha de procesamiento
+2026-06-07T16:00,CRC-2026-0038,Finanzas Contoso,API del regulador,CONNECTION_TIMEOUT,POST /regulador/envios agotó el tiempo tras 30 s
+2026-06-07T20:00,CRC-2026-0039,Comercial Norte,Portal CRC,OK,Validación completada correctamente
+2026-06-08T00:00,CRC-2026-0040,Industrias Fabrikam,Portal CRC,OK,Validación completada correctamente
+2026-06-08T04:00,CRC-2026-0041,Finanzas Contoso,Portal CRC,OK,Validación completada correctamente
+not-a-date,CRC-2026-0042,Industrias Fabrikam,API del regulador,MALFORMED_TIMESTAMP,No se puede interpretar la fecha del evento 'ayer'
+2026-06-08T12:00,CRC-2026-0043,Finanzas Contoso,Importación por lotes,OK,Validación completada correctamente
+2026-06-08T16:00,CRC-2026-0044,Industrias Fabrikam,Portal CRC,FUTURE_DATE,La fecha_transaccion es posterior a la fecha de procesamiento
+2026-06-08T20:00,CRC-2026-0045,Finanzas Contoso,API del regulador,INVALID_TAX_ID,La identificación fiscal '12-ABC' no superó la validación
+2026-06-09T00:00,CRC-2026-0046,Grupo Alpino,Importación por lotes,FUTURE_DATE,La fecha_transaccion es posterior a la fecha de procesamiento
+2026-06-09T04:00,CRC-2026-0047,Grupo Alpino,Importación por lotes,NEGATIVE_AMOUNT,importe_bruto=-450.00 incumple el mínimo de 0
+2026-06-09T08:00,CRC-2026-0048,Industrias Fabrikam,Portal CRC,OK,Validación completada correctamente
+2026-06-09T12:00,CRC-2026-0049,Finanzas Contoso,Portal CRC,OK,Validación completada correctamente
+2026-06-09T16:00,CRC-2026-0050,Comercial Norte,Importación por lotes,FUTURE_DATE,La fecha_transaccion es posterior a la fecha de procesamiento
+2026-06-09T20:00,CRC-2026-0051,Comercial Norte,API del regulador,INVALID_TAX_ID,La identificación fiscal '12-ABC' no superó la validación
+2026-06-10T00:00,CRC-2026-0052,Finanzas Contoso,API del regulador,,El proceso terminó sin devolver un código de error
+2026-06-10T04:00,CRC-2026-0053,Finanzas Contoso,Portal CRC,OK,Validación completada correctamente
+2026-06-10T08:00,CRC-2026-0054,Comercial Norte,API del regulador,NEGATIVE_AMOUNT,importe_bruto=-450.00 incumple el mínimo de 0
+not-a-date,CRC-2026-0055,Comercial Norte,Portal CRC,MALFORMED_TIMESTAMP,No se puede interpretar la fecha del evento 'ayer'
+2026-06-10T16:00,CRC-2026-0056,Comercial Norte,Portal CRC,OK,Validación completada correctamente
+2026-06-10T20:00,CRC-2026-0057,Grupo Alpino,Portal CRC,FUTURE_DATE,La fecha_transaccion es posterior a la fecha de procesamiento
+2026-06-11T00:00,CRC-2026-0058,Finanzas Contoso,Importación por lotes,OK,Validación completada correctamente
+2026-06-11T04:00,CRC-2026-0059,Industrias Fabrikam,Portal CRC,LATE_SUBMISSION,La recepción supera el plazo legal por 4 días
+2026-06-11T08:00,CRC-2026-0060,Finanzas Contoso,API del regulador,TOTAL_MISMATCH,total_declarado=9850.00 suma_transacciones=9480.00
+2026-06-11T12:00,CRC-2026-0061,Industrias Fabrikam,Portal CRC,OK,Validación completada correctamente
+2026-06-11T16:00,CRC-2026-0062,Industrias Fabrikam,Importación por lotes,CONNECTION_TIMEOUT,POST /regulador/envios agotó el tiempo tras 30 s
+2026-06-11T20:00,CRC-2026-0001,Finanzas Contoso,Portal CRC,DUPLICATE_REPORT,Violación de unicidad para id_reporte
+2026-06-12T00:00,CRC-2026-0064,Comercial Norte,API del regulador,OK,Validación completada correctamente
+2026-06-12T04:00,CRC-2026-0065,Industrias Fabrikam,Importación por lotes,OK,Validación completada correctamente
+2026-06-12T08:00,CRC-2026-0066,Industrias Fabrikam,Importación por lotes,NEGATIVE_AMOUNT,importe_bruto=-450.00 incumple el mínimo de 0
+2026-06-12T12:00,CRC-2026-0067,Industrias Fabrikam,API del regulador,CONNECTION_TIMEOUT,POST /regulador/envios agotó el tiempo tras 30 s
+2026-06-12T16:00,,Comercial Norte,API del regulador,MISSING_REPORT_ID,El id_reporte no estaba presente en el envío
+2026-06-12T20:00,CRC-2026-0069,Comercial Norte,Portal CRC,OK,Validación completada correctamente
+2026-06-13T00:00,CRC-2026-0070,Industrias Fabrikam,API del regulador,OK,Validación completada correctamente
+2026-06-13T04:00,CRC-2026-0071,Grupo Alpino,Portal CRC,OK,Validación completada correctamente
+2026-06-13T08:00,CRC-2026-0072,Finanzas Contoso,Portal CRC,MISSING_TAX_ID,ErrorValidacion: identificacion_fiscal es nula
