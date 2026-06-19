@@ -4,14 +4,20 @@ Prototipo en Streamlit que convierte errores técnicos de reportes CRC en explic
 
 ## Arquitectura del sistema
 
-```mermaid
-flowchart LR
-    U[Usuario legal] -->|Selecciona un error| S[Streamlit]
-    S -->|Envía el registro| P[Python]
-    P -->|Solicita una explicación| O[Ollama]
-    O -->|Devuelve texto sencillo| P
-    P -->|Muestra el resultado| S
-    S -->|Explicación y acción| U
+```text
+Usuario legal
+      │
+      ▼
+Streamlit
+      │
+      ▼
+Python
+      │
+      ▼
+Ollama
+      │
+      ▼
+Explicación en Streamlit
 ```
 
 - **Streamlit:** presenta el dashboard y recibe las acciones del usuario.
