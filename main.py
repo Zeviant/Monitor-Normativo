@@ -1,6 +1,7 @@
 from pathlib import Path
 import json
 
+import altair as alt
 import pandas as pd
 import requests
 import streamlit as st
@@ -307,15 +308,25 @@ def show_dashboard(df: pd.DataFrame) -> None:
         st.bar_chart(result_counts, color="#2E86AB")
     with chart2:
         st.caption("Incidencias por severidad")
-        order = ["Crítica", "Alta", "Media", "Baja", "Requiere revisión"]
+        order = ["Baja", "Media", "Alta", "Crítica", "Requiere revisión"]
         severity_counts = (
             df.loc[df["resultado"] == "Con incidencias", "severidad"]
             .value_counts()
             .reindex(order, fill_value=0)
             .rename_axis("Severidad")
             .to_frame("Entradas")
+            .reset_index()
         )
-        st.bar_chart(severity_counts, color="#D1495B")
+        severity_chart = (
+            alt.Chart(severity_counts)
+            .mark_bar(color="#D1495B")
+            .encode(
+                x=alt.X("Severidad:N", sort=order, title=None),
+                y=alt.Y("Entradas:Q", title="Entradas"),
+                tooltip=["Severidad:N", "Entradas:Q"],
+            )
+        )
+        st.altair_chart(severity_chart, use_container_width=True)
 
     st.caption("Tipos de incidencia más frecuentes")
     issue_counts = (
