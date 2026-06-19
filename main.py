@@ -8,130 +8,142 @@ DATA_FILE = Path(__file__).parent / "data" / "synthetic_compliance_logs.csv"
 
 ERROR_CATALOG = {
     "OK": (
-        "Valid",
-        "No issue",
-        "The report passed all automated checks.",
-        "No action is required.",
+        "Válido",
+        "Sin incidencias",
+        "El reporte superó todas las validaciones automáticas.",
+        "No se requiere ninguna acción.",
     ),
     "MISSING_TAX_ID": (
-        "Critical",
-        "Missing required data",
-        "The regulated entity cannot be identified because its tax ID is missing.",
-        "Add the correct tax ID and submit the report again.",
+        "Crítica",
+        "Dato obligatorio ausente",
+        "No se puede identificar a la entidad regulada porque falta su identificación fiscal.",
+        "Añada la identificación fiscal correcta y vuelva a enviar el reporte.",
     ),
     "INVALID_TAX_ID": (
-        "High",
-        "Invalid identifier",
-        "The supplied tax ID does not match the accepted format.",
-        "Verify the entity's tax ID against the official record.",
+        "Alta",
+        "Identificador inválido",
+        "La identificación fiscal proporcionada no cumple con el formato aceptado.",
+        "Verifique la identificación fiscal de la entidad en el registro oficial.",
     ),
     "INVALID_DATE": (
-        "High",
-        "Invalid date",
-        "A date is missing or uses a format the reporting system cannot accept.",
-        "Correct the date to YYYY-MM-DD and resubmit.",
+        "Alta",
+        "Fecha inválida",
+        "Falta una fecha o utiliza un formato que el sistema no acepta.",
+        "Corrija la fecha al formato AAAA-MM-DD y vuelva a enviar el reporte.",
     ),
     "FUTURE_DATE": (
-        "High",
-        "Invalid reporting period",
-        "The report contains a transaction date in the future.",
-        "Check the transaction date and reporting period.",
+        "Alta",
+        "Período de reporte inválido",
+        "El reporte contiene una fecha de transacción futura.",
+        "Revise la fecha de la transacción y el período reportado.",
     ),
     "LATE_SUBMISSION": (
-        "High",
-        "Submission deadline",
-        "The report was received after its compliance deadline.",
-        "Confirm whether remediation or a late-filing notice is required.",
+        "Alta",
+        "Plazo de presentación",
+        "El reporte se recibió después del plazo de cumplimiento.",
+        "Confirme si se requiere una corrección o notificación por presentación tardía.",
     ),
     "TOTAL_MISMATCH": (
-        "Critical",
-        "Financial inconsistency",
-        "The declared total does not equal the sum of the underlying transactions.",
-        "Reconcile the figures before resubmission.",
+        "Crítica",
+        "Inconsistencia financiera",
+        "El total declarado no coincide con la suma de las transacciones.",
+        "Concilie los importes antes de volver a enviar el reporte.",
     ),
     "NEGATIVE_AMOUNT": (
-        "Medium",
-        "Invalid amount",
-        "A value that must be zero or greater was submitted as a negative amount.",
-        "Check whether the value is an error or should be reported as an adjustment.",
+        "Media",
+        "Importe inválido",
+        "Un valor que debe ser igual o mayor que cero fue enviado como importe negativo.",
+        "Compruebe si es un error o si debe declararse como un ajuste.",
     ),
     "INVALID_AMOUNT": (
-        "High",
-        "Unreadable amount",
-        "A financial field contains text or an unsupported number format.",
-        "Replace it with a valid numeric amount.",
+        "Alta",
+        "Importe ilegible",
+        "Un campo financiero contiene texto o un formato numérico no admitido.",
+        "Sustitúyalo por un importe numérico válido.",
     ),
     "DUPLICATE_REPORT": (
-        "Medium",
-        "Possible duplicate",
-        "A report with the same identifier appears to have already been submitted.",
-        "Confirm the earlier submission before sending another copy.",
+        "Media",
+        "Posible duplicado",
+        "Parece que ya se presentó un reporte con el mismo identificador.",
+        "Confirme la presentación anterior antes de enviar otra copia.",
     ),
     "MISSING_REPORT_ID": (
-        "Critical",
-        "Missing report reference",
-        "The entry has no report ID, so it cannot be reliably tracked or audited.",
-        "Assign the correct report ID and process the entry again.",
+        "Crítica",
+        "Referencia de reporte ausente",
+        "La entrada no tiene un identificador de reporte y no puede rastrearse ni auditarse correctamente.",
+        "Asigne el identificador correcto y procese de nuevo la entrada.",
     ),
     "MALFORMED_TIMESTAMP": (
-        "Medium",
-        "Unreadable timestamp",
-        "The system cannot determine when the event occurred.",
-        "Correct the timestamp and verify the submission sequence.",
+        "Media",
+        "Fecha y hora ilegibles",
+        "El sistema no puede determinar cuándo ocurrió el evento.",
+        "Corrija la fecha y hora y verifique la secuencia de presentación.",
     ),
     "CONNECTION_TIMEOUT": (
-        "Low",
-        "Technical availability",
-        "The regulator's service did not respond; the report data may still be correct.",
-        "Retry the submission and escalate if the service remains unavailable.",
+        "Baja",
+        "Disponibilidad técnica",
+        "El servicio del regulador no respondió; los datos del reporte podrían ser correctos.",
+        "Reintente el envío y escale el incidente si el servicio sigue sin responder.",
     ),
     "MALFORMED_PAYLOAD": (
-        "High",
-        "Unreadable submission",
-        "The submitted file or message is damaged or does not follow the required structure.",
-        "Generate the file again using the required schema.",
+        "Alta",
+        "Envío ilegible",
+        "El archivo o mensaje está dañado o no sigue la estructura requerida.",
+        "Genere de nuevo el archivo utilizando el esquema requerido.",
     ),
     "ENCODING_ERROR": (
-        "Medium",
-        "Text encoding",
-        "Some names or descriptions contain characters the receiving system cannot read.",
-        "Export the report using UTF-8 encoding and submit it again.",
+        "Media",
+        "Codificación de texto",
+        "Algunos nombres o descripciones contienen caracteres que el sistema receptor no puede leer.",
+        "Exporte el reporte con codificación UTF-8 y vuelva a enviarlo.",
     ),
     "UNKNOWN_ERROR": (
-        "Needs review",
-        "Unclassified issue",
-        "The system encountered an error that is not yet in the compliance rule catalog.",
-        "Send this entry to a technical reviewer before taking legal action.",
+        "Requiere revisión",
+        "Incidencia sin clasificar",
+        "El sistema encontró un error que todavía no figura en el catálogo de reglas.",
+        "Envíe esta entrada a revisión técnica antes de tomar medidas legales.",
     ),
 }
 
 REQUIRED_COLUMNS = {
-    "timestamp",
-    "report_id",
-    "entity",
-    "source",
-    "error_code",
-    "technical_message",
+    "fecha_hora",
+    "id_reporte",
+    "entidad",
+    "fuente",
+    "codigo_error",
+    "mensaje_tecnico",
+}
+
+LEGACY_COLUMNS = {
+    "timestamp": "fecha_hora",
+    "report_id": "id_reporte",
+    "entity": "entidad",
+    "source": "fuente",
+    "error_code": "codigo_error",
+    "technical_message": "mensaje_tecnico",
 }
 
 
 def enrich_logs(raw: pd.DataFrame) -> pd.DataFrame:
-    """Add business-friendly fields without changing the uploaded source data."""
+    """Añade campos comprensibles para negocio sin alterar los datos de origen."""
     df = raw.copy().fillna("")
-    df["error_code"] = df["error_code"].astype(str).str.strip().str.upper()
-    df.loc[df["error_code"] == "", "error_code"] = "UNKNOWN_ERROR"
+    df = df.rename(columns=LEGACY_COLUMNS)
+    df["codigo_error"] = df["codigo_error"].astype(str).str.strip().str.upper()
+    df.loc[df["codigo_error"] == "", "codigo_error"] = "UNKNOWN_ERROR"
 
-    details = df["error_code"].map(ERROR_CATALOG)
+    details = df["codigo_error"].map(ERROR_CATALOG)
     fallback = ERROR_CATALOG["UNKNOWN_ERROR"]
-    df["severity"] = details.map(lambda value: value[0] if isinstance(value, tuple) else fallback[0])
-    df["issue_type"] = details.map(lambda value: value[1] if isinstance(value, tuple) else fallback[1])
-    df["business_explanation"] = details.map(
+    df["severidad"] = details.map(lambda value: value[0] if isinstance(value, tuple) else fallback[0])
+    df["tipo_incidencia"] = details.map(lambda value: value[1] if isinstance(value, tuple) else fallback[1])
+    df["explicacion_negocio"] = details.map(
         lambda value: value[2] if isinstance(value, tuple) else fallback[2]
     )
-    df["recommended_action"] = details.map(
+    df["accion_recomendada"] = details.map(
         lambda value: value[3] if isinstance(value, tuple) else fallback[3]
     )
-    df["result"] = df["error_code"].map(lambda code: "Valid" if code == "OK" else "Has issues")
+    df["resultado"] = df["codigo_error"].map(
+        lambda code: "Válido" if code == "OK" else "Con incidencias"
+    )
     return df
 
 
@@ -142,130 +154,133 @@ def load_sample_data() -> pd.DataFrame:
 
 def show_dashboard(df: pd.DataFrame) -> None:
     total = len(df)
-    valid = int((df["result"] == "Valid").sum())
+    valid = int((df["resultado"] == "Válido").sum())
     issues = total - valid
-    critical = int((df["severity"] == "Critical").sum())
+    critical = int((df["severidad"] == "Crítica").sum())
 
     col1, col2, col3, col4 = st.columns(4)
-    col1.metric("Total entries", f"{total:,}")
-    col2.metric("Valid", f"{valid:,}")
-    col3.metric("With issues", f"{issues:,}")
-    col4.metric("Critical", f"{critical:,}")
+    col1.metric("Total de entradas", f"{total:,}")
+    col2.metric("Válidas", f"{valid:,}")
+    col3.metric("Con incidencias", f"{issues:,}")
+    col4.metric("Críticas", f"{critical:,}")
 
-    st.subheader("Overview")
+    st.subheader("Resumen")
     chart1, chart2 = st.columns(2)
     with chart1:
-        st.caption("Validation result")
-        result_counts = df["result"].value_counts().rename_axis("Result").to_frame("Entries")
+        st.caption("Resultado de validación")
+        result_counts = df["resultado"].value_counts().rename_axis("Resultado").to_frame("Entradas")
         st.bar_chart(result_counts, color="#2E86AB")
     with chart2:
-        st.caption("Issues by severity")
-        order = ["Critical", "High", "Medium", "Low", "Needs review"]
+        st.caption("Incidencias por severidad")
+        order = ["Crítica", "Alta", "Media", "Baja", "Requiere revisión"]
         severity_counts = (
-            df.loc[df["result"] == "Has issues", "severity"]
+            df.loc[df["resultado"] == "Con incidencias", "severidad"]
             .value_counts()
             .reindex(order, fill_value=0)
-            .rename_axis("Severity")
-            .to_frame("Entries")
+            .rename_axis("Severidad")
+            .to_frame("Entradas")
         )
         st.bar_chart(severity_counts, color="#D1495B")
 
-    st.caption("Most common issue types")
+    st.caption("Tipos de incidencia más frecuentes")
     issue_counts = (
-        df.loc[df["result"] == "Has issues", "issue_type"]
+        df.loc[df["resultado"] == "Con incidencias", "tipo_incidencia"]
         .value_counts()
         .head(10)
         .sort_values()
-        .rename_axis("Issue")
-        .to_frame("Entries")
+        .rename_axis("Incidencia")
+        .to_frame("Entradas")
     )
     st.bar_chart(issue_counts, horizontal=True, color="#F4A261")
 
 
 def main() -> None:
-    st.set_page_config(page_title="Compliance Monitor", page_icon="🏢", layout="wide")
-    st.title("🏢 Regulatory Compliance Monitor")
-    st.write("Technical report errors, translated into clear compliance actions for Legal.")
+    st.set_page_config(page_title="Monitor Normativo", page_icon="🏢", layout="wide")
+    st.title("🏢 Monitor Normativo")
+    st.write("Errores técnicos traducidos en acciones claras de cumplimiento para el equipo legal.")
 
     with st.sidebar:
-        st.header("Data source")
-        uploaded = st.file_uploader("Upload a log file", type=["csv"])
-        st.caption("Use the included sample data or upload a CSV with the same columns.")
+        st.header("Fuente de datos")
+        uploaded = st.file_uploader("Cargar un archivo de registros", type=["csv"])
+        st.caption("Use los datos de ejemplo incluidos o cargue un CSV con las mismas columnas.")
 
     try:
         raw = pd.read_csv(uploaded, dtype=str, keep_default_na=False) if uploaded else load_sample_data()
     except Exception as exc:
-        st.error(f"The CSV could not be read: {exc}")
+        st.error(f"No se pudo leer el archivo CSV: {exc}")
         st.stop()
 
-    missing = REQUIRED_COLUMNS.difference(raw.columns)
+    available_columns = set(raw.columns) | {LEGACY_COLUMNS[col] for col in raw.columns if col in LEGACY_COLUMNS}
+    missing = REQUIRED_COLUMNS.difference(available_columns)
     if missing:
-        st.error("The CSV is missing required columns: " + ", ".join(sorted(missing)))
+        st.error("Faltan columnas obligatorias en el CSV: " + ", ".join(sorted(missing)))
         st.stop()
 
     df = enrich_logs(raw)
 
     with st.sidebar:
-        st.header("Filters")
-        result_filter = st.multiselect("Result", sorted(df["result"].unique()), default=list(df["result"].unique()))
-        severity_filter = st.multiselect(
-            "Severity", sorted(df["severity"].unique()), default=list(df["severity"].unique())
+        st.header("Filtros")
+        result_filter = st.multiselect(
+            "Resultado", sorted(df["resultado"].unique()), default=list(df["resultado"].unique())
         )
-        entity_filter = st.multiselect("Entity", sorted(df["entity"].unique()))
-        search = st.text_input("Search report or message")
+        severity_filter = st.multiselect(
+            "Severidad", sorted(df["severidad"].unique()), default=list(df["severidad"].unique())
+        )
+        entity_filter = st.multiselect("Entidad", sorted(df["entidad"].unique()))
+        search = st.text_input("Buscar reporte o mensaje")
 
-    filtered = df[df["result"].isin(result_filter) & df["severity"].isin(severity_filter)]
+    filtered = df[df["resultado"].isin(result_filter) & df["severidad"].isin(severity_filter)]
     if entity_filter:
-        filtered = filtered[filtered["entity"].isin(entity_filter)]
+        filtered = filtered[filtered["entidad"].isin(entity_filter)]
     if search:
-        searchable = filtered[["report_id", "technical_message", "entity"]].astype(str).agg(" ".join, axis=1)
+        searchable = filtered[["id_reporte", "mensaje_tecnico", "entidad"]].astype(str).agg(" ".join, axis=1)
         filtered = filtered[searchable.str.contains(search, case=False, regex=False)]
 
     show_dashboard(filtered)
 
-    st.subheader("Compliance entries")
+    st.subheader("Entradas de cumplimiento")
     st.dataframe(
         filtered[
             [
-                "timestamp",
-                "report_id",
-                "entity",
-                "result",
-                "severity",
-                "issue_type",
-                "business_explanation",
-                "recommended_action",
+                "fecha_hora",
+                "id_reporte",
+                "entidad",
+                "resultado",
+                "severidad",
+                "tipo_incidencia",
+                "explicacion_negocio",
+                "accion_recomendada",
             ]
         ],
         use_container_width=True,
         hide_index=True,
     )
 
-    st.subheader("Inspect one entry")
+    st.subheader("Inspeccionar una entrada")
     if filtered.empty:
-        st.info("No entries match the current filters.")
+        st.info("No hay entradas que coincidan con los filtros actuales.")
         return
     choices = filtered.index.tolist()
     selected = st.selectbox(
-        "Choose a report",
+        "Seleccione un reporte",
         choices,
-        format_func=lambda idx: f"{filtered.loc[idx, 'report_id'] or '(missing ID)'} — {filtered.loc[idx, 'issue_type']}",
+        format_func=lambda idx: f"{filtered.loc[idx, 'id_reporte'] or '(ID ausente)'} — {filtered.loc[idx, 'tipo_incidencia']}",
     )
     row = filtered.loc[selected]
     left, right = st.columns(2)
     with left:
-        st.markdown("**Original technical message**")
-        st.code(row["technical_message"] or "(empty message)")
-        st.write(f"Source: {row['source']} · Error code: `{row['error_code']}`")
+        st.markdown("**Mensaje técnico original**")
+        st.code(row["mensaje_tecnico"] or "(mensaje vacío)")
+        st.write(f"Fuente: {row['fuente']} · Código de error: `{row['codigo_error']}`")
     with right:
-        st.markdown(f"**{row['severity']} — {row['issue_type']}**")
-        st.write(row["business_explanation"])
-        st.info("Recommended action: " + row["recommended_action"])
+        st.markdown(f"**{row['severidad']} — {row['tipo_incidencia']}**")
+        st.write(row["explicacion_negocio"])
+        st.info("Acción recomendada: " + row["accion_recomendada"])
 
     st.download_button(
-        "Download analyzed results",
+        "Descargar resultados analizados",
         filtered.to_csv(index=False).encode("utf-8"),
-        file_name="analyzed_compliance_logs.csv",
+        file_name="registros_normativos_analizados.csv",
         mime="text/csv",
     )
 

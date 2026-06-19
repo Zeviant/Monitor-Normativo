@@ -1,8 +1,8 @@
-# Regulatory Compliance Monitor
+# Monitor Normativo
 
-A small Streamlit prototype that turns technical CRC report errors into explanations and recommended actions that a Legal or Compliance team can understand.
+Prototipo en Streamlit que convierte errores técnicos de reportes CRC en explicaciones y acciones recomendadas comprensibles para los equipos Legal y de Cumplimiento.
 
-## Run it
+## Ejecutar la aplicación
 
 ```powershell
 python -m pip install -r requirements.txt
@@ -10,18 +10,18 @@ python generate_dataset.py
 streamlit run main.py
 ```
 
-The app opens in your browser. It uses the bundled synthetic dataset by default; no confidential or production data is needed.
+La aplicación se abrirá en el navegador. Utiliza por defecto los datos sintéticos incluidos; no requiere información confidencial ni datos de producción.
 
-## What the prototype demonstrates
+## Funcionalidades
 
-- Counts of valid, problematic, and critical entries
-- Charts for validation results, severity, and issue categories
-- Plain-language explanations and recommended actions
-- Filters, search, CSV upload, and analyzed-result download
-- Edge cases including missing identifiers, invalid dates and amounts, duplicates, damaged payloads, timeouts, encoding failures, empty codes, and unknown errors
+- Conteo de entradas válidas, problemáticas y críticas
+- Gráficos de resultados, severidad y categorías de incidencia
+- Explicaciones claras y acciones recomendadas
+- Filtros, búsqueda, carga de CSV y descarga de resultados
+- Casos límite: identificadores ausentes, fechas e importes inválidos, duplicados, archivos dañados, tiempos de espera, errores de codificación y errores desconocidos
 
-## Expected CSV columns
+## Columnas esperadas en el CSV
 
-`timestamp`, `report_id`, `entity`, `source`, `error_code`, `technical_message`
+`fecha_hora`, `id_reporte`, `entidad`, `fuente`, `codigo_error`, `mensaje_tecnico`
 
-This MVP uses a transparent rule catalog instead of an external AI service. In a production version, ELK could supply the logs and an approved language model could explain previously unseen errors, with human review for uncertain results.
+Este MVP utiliza un catálogo transparente de reglas en lugar de un servicio externo de IA. En producción, ELK podría suministrar los registros y un modelo de lenguaje aprobado podría explicar errores nuevos, manteniendo revisión humana para los casos inciertos.
