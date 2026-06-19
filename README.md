@@ -2,6 +2,22 @@
 
 Prototipo en Streamlit que convierte errores técnicos de reportes CRC en explicaciones y acciones recomendadas comprensibles para los equipos Legal y de Cumplimiento.
 
+## Arquitectura del sistema
+
+```mermaid
+flowchart LR
+    U[Usuario legal] -->|Selecciona un error| S[Streamlit]
+    S -->|Envía el registro| P[Python]
+    P -->|Solicita una explicación| O[Ollama]
+    O -->|Devuelve texto sencillo| P
+    P -->|Muestra el resultado| S
+    S -->|Explicación y acción| U
+```
+
+- **Streamlit:** presenta el dashboard y recibe las acciones del usuario.
+- **Python:** procesa los registros, aplica las reglas y coordina el flujo.
+- **Ollama:** ejecuta el modelo local que traduce el error técnico.
+
 ## Ejecutar la aplicación
 
 ```powershell

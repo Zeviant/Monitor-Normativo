@@ -198,15 +198,18 @@ Un sistema interno procesa reportes de cumplimiento CRC y genera logs técnicos 
 # R — Rol
 Actúa como especialista interno en cumplimiento normativo con experiencia traduciendo errores de sistemas a lenguaje de negocio para equipos legales.
 
-# I — Instrucciones
-1. Explica qué ocurrió usando lenguaje sencillo.
-2. Describe únicamente el posible impacto para el proceso de cumplimiento.
-3. Propón una acción concreta basada en la acción aprobada proporcionada.
-4. Si faltan datos o el error no está claro, solicita revisión técnica.
-5. Responde completamente en español.
+# I — Intención
+Transforma el error técnico seleccionado en una explicación breve, comprensible y accionable para el equipo legal. El objetivo es que pueda entender qué sucedió, valorar su posible impacto en cumplimiento y conocer el siguiente paso recomendado.
 
-# S — Especificidad
-Analiza exclusivamente estos datos:
+# S — Steps (Pasos)
+1. Lee exclusivamente los datos del log proporcionado.
+2. Identifica el problema descrito sin cambiar el tipo ni la severidad aprobados.
+3. Traduce el problema a lenguaje sencillo y evita jerga técnica innecesaria.
+4. Explica únicamente el posible impacto para el proceso de cumplimiento.
+5. Propón una acción concreta basada en la acción aprobada.
+6. Si faltan datos o el error no está claro, indica que se necesita revisión técnica.
+
+Datos que debes analizar:
 - Código de error: {row['codigo_error']}
 - Mensaje técnico original: {row['mensaje_tecnico']}
 - Tipo de incidencia aprobado: {row['tipo_incidencia']}
@@ -214,7 +217,9 @@ Analiza exclusivamente estos datos:
 - Contexto de negocio aprobado: {row['explicacion_negocio']}
 - Acción base aprobada: {row['accion_recomendada']}
 
-Utiliza exactamente esta estructura, sin añadir otros apartados:
+# P — Presentación
+Responde completamente en español, con tono profesional, claro y prudente. Limita cada apartado a un máximo de dos frases breves y utiliza exactamente esta estructura, sin añadir otros apartados:
+
 **Qué ocurrió**
 [Explicación sencilla]
 
@@ -224,20 +229,22 @@ Utiliza exactamente esta estructura, sin añadir otros apartados:
 **Acción recomendada**
 [Siguiente paso concreto]
 
-# P — Rendimiento
-- Escribe para una persona del equipo legal sin conocimientos técnicos.
-- Mantén un tono profesional, claro y prudente.
-- Limita cada apartado a un máximo de dos frases breves.
-- Respeta el tipo, la severidad y la acción aprobados; no los contradigas.
-- No inventes leyes, artículos, multas, sanciones, fechas límite, obligaciones ni hechos.
-- No presentes posibilidades como certezas y evita jerga técnica innecesaria.
+# E — Evaluación
+Antes de responder, comprueba silenciosamente que la salida:
+- Sea comprensible para una persona del equipo legal sin conocimientos técnicos.
+- Respete el tipo, la severidad y la acción aprobados.
+- No invente leyes, artículos, multas, sanciones, fechas límite, obligaciones ni hechos.
+- No presente posibilidades como certezas.
+- Incluya exactamente los tres encabezados solicitados.
+Si alguna condición no se cumple, corrige la respuesta antes de entregarla. No muestres esta evaluación.
 
-# E — Ejemplo
-Entrada de ejemplo:
+# Few-shot — Ejemplos de referencia
+Ejemplo 1 — Inconsistencia financiera
+Entrada:
 - Código: TOTAL_MISMATCH
 - Mensaje: declared_total=9850.00 transaction_sum=9480.00
 
-Salida esperada:
+Salida:
 **Qué ocurrió**
 El total declarado no coincide con la suma de las transacciones incluidas en el reporte.
 
@@ -245,7 +252,22 @@ El total declarado no coincide con la suma de las transacciones incluidas en el 
 Esta diferencia puede impedir que el reporte supere la validación y sea presentado correctamente.
 
 **Acción recomendada**
-Concilie los importes y corrija el total antes de volver a enviar el reporte."""
+Concilie los importes y corrija el total antes de volver a enviar el reporte.
+
+Ejemplo 2 — Disponibilidad técnica
+Entrada:
+- Código: CONNECTION_TIMEOUT
+- Mensaje: POST /regulador/envios agotó el tiempo tras 30 s
+
+Salida:
+**Qué ocurrió**
+El servicio del regulador no respondió dentro del tiempo esperado, por lo que el envío no pudo completarse.
+
+**Impacto para cumplimiento**
+El reporte podría seguir pendiente de presentación, aunque este error no indica por sí mismo que sus datos sean incorrectos.
+
+**Acción recomendada**
+Reintente el envío y solicite apoyo técnico si el servicio continúa sin responder."""
     response = requests.post(
         f"{OLLAMA_URL}/api/generate",
         json={
