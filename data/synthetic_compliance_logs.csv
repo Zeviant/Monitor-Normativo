@@ -1,0 +1,73 @@
+timestamp,report_id,entity,source,error_code,technical_message
+2026-06-01T12:00,CRC-2026-0001,Contoso Finance,Regulator API,DUPLICATE_REPORT,unique constraint violation on report_id
+2026-06-01T16:00,CRC-2026-0002,Fabrikam Ltd,CRC Portal,OK,Validation completed successfully
+2026-06-01T20:00,CRC-2026-0003,Northwind Trading,CRC Portal,LATE_SUBMISSION,received_at exceeds statutory deadline by 4 days
+2026-06-02T00:00,CRC-2026-0004,Contoso Finance,Regulator API,MISSING_TAX_ID,ValidationError: taxpayer_id is null
+not-a-date,CRC-2026-0005,Contoso Finance,Regulator API,MALFORMED_TIMESTAMP,event timestamp 'yesterday' cannot be parsed
+2026-06-02T08:00,CRC-2026-0006,Fabrikam Ltd,Regulator API,INVALID_AMOUNT,could not parse amount value 'nine hundred'
+2026-06-02T12:00,CRC-2026-0007,Northwind Trading,Batch Import,CONNECTION_TIMEOUT,POST /regulator/submissions timed out after 30s
+2026-06-02T16:00,CRC-2026-0008,Fabrikam Ltd,Regulator API,CONNECTION_TIMEOUT,POST /regulator/submissions timed out after 30s
+2026-06-02T20:00,CRC-2026-0009,Fabrikam Ltd,Regulator API,INVALID_DATE,submission_date '20/99/2026' is not ISO-8601
+not-a-date,CRC-2026-0010,Alpine Holdings,Regulator API,MALFORMED_TIMESTAMP,event timestamp 'yesterday' cannot be parsed
+2026-06-03T04:00,CRC-2026-0011,Northwind Trading,Regulator API,INVALID_AMOUNT,could not parse amount value 'nine hundred'
+2026-06-03T08:00,CRC-2026-0012,Northwind Trading,Regulator API,OK,Validation completed successfully
+not-a-date,CRC-2026-0013,Alpine Holdings,Regulator API,MALFORMED_TIMESTAMP,event timestamp 'yesterday' cannot be parsed
+2026-06-03T16:00,CRC-2026-0014,Alpine Holdings,CRC Portal,DUPLICATE_REPORT,unique constraint violation on report_id
+2026-06-03T20:00,CRC-2026-0015,Alpine Holdings,Batch Import,,worker stopped without returning an error code
+2026-06-04T00:00,CRC-2026-0016,Contoso Finance,Batch Import,FUTURE_DATE,transaction_date is later than processing date
+2026-06-04T04:00,CRC-2026-0017,Northwind Trading,Regulator API,MALFORMED_PAYLOAD,JSONDecodeError: expected comma at line 1 column 84
+2026-06-04T08:00,CRC-2026-0018,Alpine Holdings,Regulator API,INVALID_DATE,submission_date '20/99/2026' is not ISO-8601
+2026-06-04T12:00,CRC-2026-0019,Contoso Finance,Regulator API,DUPLICATE_REPORT,unique constraint violation on report_id
+2026-06-04T16:00,CRC-2026-0020,Northwind Trading,Regulator API,MISSING_TAX_ID,ValidationError: taxpayer_id is null
+2026-06-04T20:00,CRC-2026-0021,Alpine Holdings,Regulator API,INVALID_AMOUNT,could not parse amount value 'nine hundred'
+2026-06-05T00:00,CRC-2026-0022,Contoso Finance,CRC Portal,LATE_SUBMISSION,received_at exceeds statutory deadline by 4 days
+2026-06-05T04:00,CRC-2026-0023,Alpine Holdings,CRC Portal,INVALID_DATE,submission_date '20/99/2026' is not ISO-8601
+not-a-date,CRC-2026-0024,Northwind Trading,Regulator API,MALFORMED_TIMESTAMP,event timestamp 'yesterday' cannot be parsed
+2026-06-05T12:00,CRC-2026-0025,Alpine Holdings,Batch Import,NEGATIVE_AMOUNT,gross_amount=-450.00 violates minimum 0
+2026-06-05T16:00,CRC-2026-0026,Northwind Trading,CRC Portal,MISSING_TAX_ID,ValidationError: taxpayer_id is null
+2026-06-05T20:00,,Alpine Holdings,Batch Import,MISSING_REPORT_ID,report_id was absent from payload
+2026-06-06T00:00,CRC-2026-0028,Contoso Finance,CRC Portal,MISSING_TAX_ID,ValidationError: taxpayer_id is null
+2026-06-06T04:00,CRC-2026-0029,Contoso Finance,Regulator API,MISSING_TAX_ID,ValidationError: taxpayer_id is null
+2026-06-06T08:00,CRC-2026-0030,Northwind Trading,CRC Portal,OK,Validation completed successfully
+2026-06-06T12:00,CRC-2026-0031,Fabrikam Ltd,CRC Portal,FUTURE_DATE,transaction_date is later than processing date
+2026-06-06T16:00,CRC-2026-0032,Contoso Finance,CRC Portal,FUTURE_DATE,transaction_date is later than processing date
+2026-06-06T20:00,CRC-2026-0033,Fabrikam Ltd,Regulator API,OK,Validation completed successfully
+2026-06-07T00:00,CRC-2026-0034,Contoso Finance,Batch Import,NEGATIVE_AMOUNT,gross_amount=-450.00 violates minimum 0
+2026-06-07T04:00,CRC-2026-0035,Fabrikam Ltd,CRC Portal,LATE_SUBMISSION,received_at exceeds statutory deadline by 4 days
+2026-06-07T08:00,CRC-2026-0036,Contoso Finance,Regulator API,INVALID_AMOUNT,could not parse amount value 'nine hundred'
+2026-06-07T12:00,CRC-2026-0037,Alpine Holdings,Batch Import,MISSING_TAX_ID,ValidationError: taxpayer_id is null
+2026-06-07T16:00,CRC-2026-0038,Alpine Holdings,Batch Import,OK,Validation completed successfully
+2026-06-07T20:00,CRC-2026-0039,Fabrikam Ltd,CRC Portal,TOTAL_MISMATCH,declared_total=9850.00 transaction_sum=9480.00
+2026-06-08T00:00,CRC-2026-0040,Contoso Finance,CRC Portal,INVALID_DATE,submission_date '20/99/2026' is not ISO-8601
+not-a-date,CRC-2026-0041,Northwind Trading,Batch Import,MALFORMED_TIMESTAMP,event timestamp 'yesterday' cannot be parsed
+2026-06-08T08:00,CRC-2026-0042,Northwind Trading,Regulator API,OK,Validation completed successfully
+2026-06-08T12:00,CRC-2026-0043,Contoso Finance,Regulator API,MALFORMED_PAYLOAD,JSONDecodeError: expected comma at line 1 column 84
+2026-06-08T16:00,CRC-2026-0044,Contoso Finance,CRC Portal,INVALID_DATE,submission_date '20/99/2026' is not ISO-8601
+2026-06-08T20:00,CRC-2026-0045,Northwind Trading,Regulator API,INVALID_TAX_ID,taxpayer_id '12-ABC' failed checksum validation
+2026-06-09T00:00,CRC-2026-0046,Northwind Trading,CRC Portal,CONNECTION_TIMEOUT,POST /regulator/submissions timed out after 30s
+2026-06-09T04:00,CRC-2026-0047,Northwind Trading,CRC Portal,INVALID_DATE,submission_date '20/99/2026' is not ISO-8601
+2026-06-09T08:00,CRC-2026-0048,Alpine Holdings,CRC Portal,DUPLICATE_REPORT,unique constraint violation on report_id
+2026-06-09T12:00,CRC-2026-0049,Contoso Finance,Batch Import,ENCODING_ERROR,UnicodeDecodeError while reading entity_name
+2026-06-09T16:00,,Fabrikam Ltd,CRC Portal,MISSING_REPORT_ID,report_id was absent from payload
+2026-06-09T20:00,CRC-2026-0051,Contoso Finance,Regulator API,INVALID_TAX_ID,taxpayer_id '12-ABC' failed checksum validation
+2026-06-10T00:00,CRC-2026-0052,Fabrikam Ltd,CRC Portal,TOTAL_MISMATCH,declared_total=9850.00 transaction_sum=9480.00
+2026-06-10T04:00,CRC-2026-0053,Fabrikam Ltd,Batch Import,CONNECTION_TIMEOUT,POST /regulator/submissions timed out after 30s
+2026-06-10T08:00,CRC-2026-0054,Contoso Finance,CRC Portal,TOTAL_MISMATCH,declared_total=9850.00 transaction_sum=9480.00
+2026-06-10T12:00,CRC-2026-0055,Northwind Trading,Regulator API,MISSING_TAX_ID,ValidationError: taxpayer_id is null
+2026-06-10T16:00,CRC-2026-0056,Fabrikam Ltd,Batch Import,INVALID_DATE,submission_date '20/99/2026' is not ISO-8601
+2026-06-10T20:00,CRC-2026-0057,Fabrikam Ltd,Batch Import,ENCODING_ERROR,UnicodeDecodeError while reading entity_name
+2026-06-11T00:00,CRC-2026-0058,Fabrikam Ltd,Regulator API,INVALID_AMOUNT,could not parse amount value 'nine hundred'
+2026-06-11T04:00,CRC-2026-0059,Northwind Trading,Regulator API,INVALID_TAX_ID,taxpayer_id '12-ABC' failed checksum validation
+2026-06-11T08:00,CRC-2026-0060,Northwind Trading,CRC Portal,FUTURE_DATE,transaction_date is later than processing date
+2026-06-11T12:00,,Fabrikam Ltd,Regulator API,MISSING_REPORT_ID,report_id was absent from payload
+2026-06-11T16:00,CRC-2026-0062,Alpine Holdings,CRC Portal,CONNECTION_TIMEOUT,POST /regulator/submissions timed out after 30s
+2026-06-11T20:00,CRC-2026-0063,Contoso Finance,CRC Portal,MISSING_TAX_ID,ValidationError: taxpayer_id is null
+not-a-date,CRC-2026-0064,Contoso Finance,Regulator API,MALFORMED_TIMESTAMP,event timestamp 'yesterday' cannot be parsed
+2026-06-12T04:00,CRC-2026-0065,Fabrikam Ltd,CRC Portal,INVALID_DATE,submission_date '20/99/2026' is not ISO-8601
+2026-06-12T08:00,,Fabrikam Ltd,CRC Portal,MISSING_REPORT_ID,report_id was absent from payload
+2026-06-12T12:00,CRC-2026-0067,Alpine Holdings,Batch Import,TOTAL_MISMATCH,declared_total=9850.00 transaction_sum=9480.00
+2026-06-12T16:00,CRC-2026-0068,Contoso Finance,CRC Portal,NEW_VENDOR_ERROR_777,unexpected vendor response code 777
+2026-06-12T20:00,CRC-2026-0069,Fabrikam Ltd,Regulator API,INVALID_TAX_ID,taxpayer_id '12-ABC' failed checksum validation
+2026-06-13T00:00,CRC-2026-0070,Northwind Trading,CRC Portal,LATE_SUBMISSION,received_at exceeds statutory deadline by 4 days
+2026-06-13T04:00,CRC-2026-0071,Northwind Trading,CRC Portal,TOTAL_MISMATCH,declared_total=9850.00 transaction_sum=9480.00
+not-a-date,CRC-2026-0072,Contoso Finance,CRC Portal,MALFORMED_TIMESTAMP,event timestamp 'yesterday' cannot be parsed

@@ -1,0 +1,13 @@
+
+</>
+🏢 Producto Interno
+Monitor Normativo
+Compliance
+Problema
+
+Reportes de cumplimiento (CRC) fallan por datos inconsistentes. Legal no entiende los errores técnicos del sistema.
+Solución IA propuesta
+
+Dashboard que analiza logs de errores técnicos y los 'traduce' a explicaciones de negocio para el equipo legal.
+Stack tecnológico sugerido
+PythonELK StackLangGraphStreamlit
