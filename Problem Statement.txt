@@ -10,4 +10,4 @@ Solución IA propuesta
 
 Dashboard que analiza logs de errores técnicos y los 'traduce' a explicaciones de negocio para el equipo legal.
 Stack tecnológico sugerido
-PythonELK StackLangGraphStreamlit
+Python ELKStack LangGraph Streamlit
