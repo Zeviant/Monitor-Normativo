@@ -1,30 +1,78 @@
 # Monitor Normativo
 
-Prototipo en Streamlit que convierte errores técnicos de reportes CRC en explicaciones y acciones recomendadas comprensibles para los equipos legales.
+Dashboard en Streamlit que analiza logs técnicos de reportes CRC y los convierte en explicaciones claras para equipos legales y de cumplimiento.
 
-## Arquitectura del sistema
+<img src="assets/readme/dashboard.png" alt="Dashboard principal" width="900">
+
+## Qué resuelve
+
+| Problema | Solución |
+|---|---|
+| Los reportes CRC fallan por datos inconsistentes. | El sistema clasifica cada incidencia por severidad y tipo. |
+| Legal no entiende mensajes técnicos como `Violación de unicidad`. | Ollama genera una explicación simple con impacto y acción recomendada. |
+| Revisar logs manualmente toma tiempo. | El dashboard resume, filtra, prioriza y exporta resultados. |
+
+## Stack
+
+| Componente | Uso |
+|---|---|
+| Python | Procesamiento, reglas, RAG simple y conexión con Ollama. |
+| Streamlit | Interfaz, filtros, gráficas y selección de incidencias. |
+| Ollama | Ejecución local del modelo Llama 3.2. |
+
+## Arquitectura
+
+<img src="assets/readme/arquitectura.png" alt="Arquitectura del sistema" width="760">
+
+## Flujo del sistema
+
+| Paso | Archivo | Resultado |
+|---:|---|---|
+| 1 | `generate_dataset.py` | Genera 100 registros CRC sintéticos. |
+| 2 | `main.py` | Carga el CSV generado o uno subido por el usuario. |
+| 3 | `compliance_rules.py` | Asigna severidad, tipo de incidencia y acción base. |
+| 4 | `knowledge_base.py` | Recupera contexto interno relevante mediante mini RAG. |
+| 5 | `ollama_client.py` | Envía el prompt a Ollama y recibe la explicación. |
+| 6 | `reporting.py` | Exporta CSV analizado y resumen ejecutivo. |
+
+## Interfaz
+
+| Vista | Captura |
+|---|---|
+| Modelo local | <img src="assets/readme/modelo-local.png" alt="Modelo local" width="320"> |
+| Modo de explicación | <img src="assets/readme/modo-explicacion.png" alt="Modo de explicación" width="320"> |
+| Tabla de registros | <img src="assets/readme/tabla-registros.png" alt="Tabla de registros" width="520"> |
+| Incidencias frecuentes | <img src="assets/readme/incidencias-frecuentes.png" alt="Incidencias frecuentes" width="520"> |
+| Inspector de entrada | <img src="assets/readme/inspector.png" alt="Inspector" width="520"> |
+| Explicación generada | <img src="assets/readme/explicacion-ia.png" alt="Explicación IA" width="520"> |
+
+## Técnicas de IA
+
+| Técnica | Uso en el proyecto |
+|---|---|
+| CRISPE | Estructura el prompt con contexto, rol, intención, pasos, presentación y evaluación. |
+| Two-shot prompting | Incluye dos ejemplos para guiar tono, formato y nivel de detalle. |
+| Mini RAG | Recupera notas internas desde `knowledge_base.py` antes de generar la explicación. |
+| Self-consistency ligera | En modo mejorado, genera varias alternativas y muestra la más clara. |
+
+## Datos sintéticos
+
+`generate_dataset.py` crea un dataset reproducible en `data/synthetic_compliance_logs.csv`.
+
+| Tipo de registro | Cantidad |
+|---|---:|
+| Reportes válidos | 40 |
+| Errores técnicos clasificados | 58 |
+| Errores desconocidos | 2 |
+| Total | 100 |
+
+Columnas esperadas:
 
 ```text
-Usuario legal
-      │
-      ▼
-Streamlit
-      │
-      ▼
-Python
-      │
-      ▼
-Ollama
-      │
-      ▼
-Explicación en Streamlit
+fecha_hora, id_reporte, entidad, fuente, codigo_error, mensaje_tecnico
 ```
 
-- **Streamlit:** presenta el dashboard y recibe las acciones del usuario.
-- **Python:** procesa los registros, aplica las reglas y coordina el flujo.
-- **Ollama:** ejecuta el modelo local que traduce el error técnico.
-
-## Ejecutar la aplicación
+## Ejecutar
 
 ```powershell
 python -m pip install -r requirements.txt
@@ -32,64 +80,24 @@ python generate_dataset.py
 streamlit run main.py
 ```
 
-La aplicación se abrirá en el navegador. Utiliza por defecto los datos sintéticos incluidos.
+## Ollama
 
-## Estructura del código
-
-- `main.py`: interfaz principal de Streamlit y flujo de la aplicación.
-- `compliance_rules.py`: validación de columnas, catálogo de errores y enriquecimiento de logs.
-- `knowledge_base.py`: mini RAG con notas internas recuperadas por código o mensaje.
-- `ollama_client.py`: conexión con Ollama, descarga del modelo y generación de explicaciones.
-- `charts.py`: métricas y gráficos del dashboard.
-- `reporting.py`: generación del resumen ejecutivo descargable.
-- `config.py`: rutas y configuración básica del modelo local.
-- `generate_dataset.py`: creación del dataset sintético.
-
-## Funcionalidades
-
-- Conteo de entradas válidas, problemáticas y críticas
-- Gráficos de resultados, severidad y categorías de incidencia
-- Traducción bajo demanda de errores técnicos mediante un modelo local de Ollama
-- Modo de explicación rápida o mejorada; la versión mejorada genera varias opciones y conserva la más clara
-- Mini RAG con notas internas para dar contexto al modelo antes de generar la explicación
-- Severidad y tipo de incidencia controlados por un catálogo de reglas de cumplimiento
-- Explicaciones claras y acciones recomendadas para el equipo legal
-- Filtros, búsqueda, carga de CSV, descarga del CSV analizado y resumen ejecutivo en Markdown
-- Casos límite: identificadores ausentes, fechas e importes inválidos, duplicados, archivos dañados, tiempos de espera, errores de codificación y errores desconocidos
-
-## Datos sintéticos
-
-`generate_dataset.py` crea 100 registros CRC reproducibles mediante una semilla fija:
-
-- 40 reportes válidos
-- 58 errores técnicos clasificados
-- 2 errores desconocidos para probar la revisión manual
-
-Los resultados se guardan en `data/synthetic_compliance_logs.csv` e incluyen fecha, reporte, entidad, fuente, código de error y mensaje técnico.
-
-## Columnas esperadas en el CSV
-
-`fecha_hora`, `id_reporte`, `entidad`, `fuente`, `codigo_error`, `mensaje_tecnico`
-
-El sistema CRC proporciona el código y mensaje técnico. El catálogo de reglas asigna el tipo, la severidad y una acción aprobada. El mini RAG recupera contexto interno relevante y el modelo local genera la explicación y el posible impacto cuando el usuario lo solicita.
-
-## Estrategia de prompting
-
-El prompt sigue el framework **CRISPE**: Contexto, Rol, Intención, Steps, Presentación y Evaluación. También utiliza **two-shot prompting**, con dos ejemplos completos que muestran al modelo el tono sencillo y la estructura esperada.
-
-La aplicación incluye dos modos:
-
-- **Rápida:** genera una sola explicación usando CRISPE, two-shot prompting y contexto recuperado.
-- **Mejorada:** genera varias alternativas internamente y muestra únicamente la más clara para Legal.
-
-## IA local con Ollama
-
-Instale Ollama y descargue un modelo ligero, por ejemplo:
+La app usa modelos locales de Ollama. El usuario puede elegir cualquier modelo descargado; si no tiene ninguno, puede descargar `llama3.2:latest` desde la interfaz.
 
 ```powershell
 ollama pull llama3.2
 ollama serve
 ```
 
-Ollama procesa los logs localmente a través de `http://localhost:11434`; no se necesita una clave de API ni se envían datos a un servicio en la nube.
-Si Ollama está activo pero falta `llama3.2`, el panel **Modelo local** permite descargarlo con un botón y muestra el progreso.
+## Estructura
+
+```text
+main.py                 Interfaz principal
+charts.py               Métricas y gráficas
+compliance_rules.py     Reglas de clasificación
+knowledge_base.py       Mini RAG
+ollama_client.py        Prompt y conexión con Ollama
+reporting.py            Exportación de reportes
+generate_dataset.py     Datos sintéticos
+config.py               Configuración base
+```
