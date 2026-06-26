@@ -1,6 +1,6 @@
 # Monitor Normativo
 
-Prototipo en Streamlit que convierte errores técnicos de reportes CRC en explicaciones y acciones recomendadas comprensibles para los equipos Legal y de Cumplimiento.
+Prototipo en Streamlit que convierte errores técnicos de reportes CRC en explicaciones y acciones recomendadas comprensibles para los equipos legales.
 
 ## Arquitectura del sistema
 
@@ -32,7 +32,7 @@ python generate_dataset.py
 streamlit run main.py
 ```
 
-La aplicación se abrirá en el navegador. Utiliza por defecto los datos sintéticos incluidos; no requiere información confidencial ni datos de producción.
+La aplicación se abrirá en el navegador. Utiliza por defecto los datos sintéticos incluidos.
 
 ## Estructura del código
 
