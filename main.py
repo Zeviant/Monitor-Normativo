@@ -64,7 +64,7 @@ def mostrar_configuracion_modelo() -> tuple[str, str]:
     if ollama_activo and MODELO_PREDETERMINADO not in modelos:
         modelo_seleccionado = ""
         st.warning(f"El modelo `{MODELO_PREDETERMINADO}` todavía no está descargado.")
-        if st.button("Descargar modelo local", type="primary", use_container_width=True):
+        if st.button("Descargar modelo local", type="primary", width="stretch"):
             barra_progreso = st.progress(0)
             texto_estado = st.empty()
             try:
@@ -114,7 +114,7 @@ def mostrar_filtros(registros: pd.DataFrame):
 
 def mostrar_tabla_registros(registros_filtrados: pd.DataFrame) -> None:
     st.subheader("Entradas de cumplimiento")
-    st.dataframe(registros_filtrados[COLUMNAS_TABLA], use_container_width=True, hide_index=True)
+    st.dataframe(registros_filtrados[COLUMNAS_TABLA], width="stretch", hide_index=True)
 
 
 def mostrar_inspector_registro(registros_filtrados: pd.DataFrame, modelo_seleccionado: str, modo_explicacion: str) -> None:
@@ -149,7 +149,7 @@ def mostrar_inspector_registro(registros_filtrados: pd.DataFrame, modelo_selecci
             "Generar explicación con IA",
             type="primary",
             disabled=not modelo_seleccionado,
-            use_container_width=True,
+            width="stretch",
         ):
             try:
                 with st.spinner("Traduciendo el error con el modelo local..."):
@@ -175,7 +175,7 @@ def mostrar_exportaciones(registros_filtrados: pd.DataFrame) -> None:
             registros_filtrados.to_csv(index=False).encode("utf-8"),
             file_name="registros_normativos_analizados.csv",
             mime="text/csv",
-            use_container_width=True,
+            width="stretch",
         )
     with derecha:
         st.download_button(
@@ -183,7 +183,7 @@ def mostrar_exportaciones(registros_filtrados: pd.DataFrame) -> None:
             construir_resumen_ejecutivo(registros_filtrados).encode("utf-8"),
             file_name="resumen_monitor_normativo.md",
             mime="text/markdown",
-            use_container_width=True,
+            width="stretch",
         )
 
 

@@ -41,7 +41,7 @@ def mostrar_dashboard(registros: pd.DataFrame) -> None:
                 tooltip=["Severidad:N", "Entradas:Q"],
             )
         )
-        st.altair_chart(grafico_severidad, use_container_width=True)
+        st.altair_chart(grafico_severidad, width="stretch")
 
     st.caption("Tipos de incidencia más frecuentes")
     conteo_incidencias = (
@@ -62,4 +62,4 @@ def mostrar_dashboard(registros: pd.DataFrame) -> None:
             tooltip=["Incidencia:N", "Entradas:Q"],
         )
     )
-    st.altair_chart(grafico_incidencias, use_container_width=True)
+    st.altair_chart(grafico_incidencias, width="stretch")
