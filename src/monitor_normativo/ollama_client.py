@@ -1,4 +1,5 @@
 import json
+import re
 
 import pandas as pd
 import requests
@@ -62,6 +63,26 @@ def consultar_ollama(prompt: str, modelo: str, temperatura: float = 0.2, tiempo_
     return respuesta.json()["response"].strip()
 
 
+def normalizar_formato_explicacion(texto: str) -> str:
+    """Unifica los encabezados de la respuesta generada por el modelo."""
+    encabezados = [
+        ("Qué ocurrió", r"Qu[eé]\s+ocurri[oó]"),
+        ("Impacto para cumplimiento", r"Impacto\s+para\s+cumplimiento"),
+        ("Acción recomendada", r"Acci[oó]n\s+recomendada"),
+    ]
+    texto_normalizado = texto.strip()
+    for encabezado, patron_encabezado in encabezados:
+        patron = rf"(?:\*\*)?\s*{patron_encabezado}\s*:?\s*(?:\*\*)?\s*"
+        texto_normalizado = re.sub(
+            patron,
+            f"\n\n**{encabezado}:**\n\n",
+            texto_normalizado,
+            flags=re.IGNORECASE,
+        )
+    texto_normalizado = re.sub(r"\n{3,}", "\n\n", texto_normalizado)
+    return texto_normalizado.strip()
+
+
 def construir_prompt_legal(registro: pd.Series) -> str:
     """Construye el prompt CRISPE con contexto recuperado y two-shot prompting."""
     contexto_interno = recuperar_contexto_interno(registro)
@@ -93,7 +114,7 @@ Contexto recuperado de documentos internos (mini RAG):
 {contexto_interno}
 
 # P — Presentación
-Responde completamente en español, con tono profesional, natural y muy sencillo. Escribe como si se lo explicaras verbalmente a un compañero sin conocimientos de informática. Limita cada apartado a un máximo de dos frases breves y utiliza exactamente esta estructura, sin añadir otros apartados:
+Responde completamente en español, con tono profesional, natural y muy sencillo. Escribe como si se lo explicaras verbalmente a un compañero sin conocimientos de informática. Limita cada apartado a un máximo de dos frases breves y utiliza exactamente esta estructura, sin añadir otros apartados. Cada encabezado debe ir en negrita, terminar con dos puntos y estar separado del texto por una línea en blanco:
 
 **Qué ocurrió:**
 [Explicación sencilla]
@@ -114,6 +135,8 @@ Antes de responder, comprueba silenciosamente que la salida:
 - No presente posibilidades como certezas.
 - No utilice bajo ninguna circunstancia términos como «unicidad», «violación de unicidad», «restricción», «payload», «checksum», «endpoint» o «timestamp». Sustitúyalos por su significado cotidiano.
 - Incluya exactamente los tres encabezados solicitados.
+- Use exactamente estos encabezados: **Qué ocurrió:**, **Impacto para cumplimiento:** y **Acción recomendada:**.
+- Deje una línea en blanco entre cada encabezado y su texto.
 Si alguna condición no se cumple, corrige la respuesta antes de entregarla. No muestres esta evaluación.
 
 # Few-shot — Ejemplos de referencia
@@ -123,13 +146,16 @@ Entrada:
 - Mensaje: Violación de unicidad para id_reporte
 
 Salida:
-**Qué ocurrió**
+**Qué ocurrió:**
+
 Este reporte parece haberse enviado anteriormente con el mismo identificador.
 
-**Impacto para cumplimiento**
+**Impacto para cumplimiento:**
+
 Enviar otra copia podría duplicar la información o hacer que el sistema rechace el reporte.
 
-**Acción recomendada**
+**Acción recomendada:**
+
 Compruebe la presentación anterior y vuelva a enviarlo solo si es necesario.
 
 Ejemplo 2 — Disponibilidad técnica
@@ -138,13 +164,16 @@ Entrada:
 - Mensaje: POST /regulador/envios agotó el tiempo tras 30 s
 
 Salida:
-**Qué ocurrió**
+**Qué ocurrió:**
+
 El servicio del regulador no respondió dentro del tiempo esperado, por lo que el envío no pudo completarse.
 
-**Impacto para cumplimiento**
+**Impacto para cumplimiento:**
+
 El reporte podría seguir pendiente de presentación, aunque este error no indica por sí mismo que sus datos sean incorrectos.
 
-**Acción recomendada**
+**Acción recomendada:**
+
 Reintente el envío y solicite apoyo técnico si el servicio continúa sin responder.
 
 Imita el nivel de sencillez de estos ejemplos. No reutilices la jerga del mensaje técnico en la respuesta final."""
@@ -155,5 +184,7 @@ def generar_explicacion_legal(registro: pd.Series, modelo: str, modo: str = "Rá
     prompt = construir_prompt_legal(registro)
     if modo == "Mejorada":
         prompt += "\n\nGenera 3 versiones distintas de la respuesta. Después selecciona la mejor según claridad, sencillez, utilidad para Legal y respeto de las reglas. Muestra únicamente la versión ganadora."
-        return consultar_ollama(prompt, modelo, temperatura=0.35, tiempo_espera=180)
-    return consultar_ollama(prompt, modelo, temperatura=0.2)
+        respuesta = consultar_ollama(prompt, modelo, temperatura=0.35, tiempo_espera=180)
+        return normalizar_formato_explicacion(respuesta)
+    respuesta = consultar_ollama(prompt, modelo, temperatura=0.2)
+    return normalizar_formato_explicacion(respuesta)
