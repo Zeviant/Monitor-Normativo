@@ -1,18 +1,23 @@
+from pathlib import Path
+import sys
+
 import pandas as pd
 import requests
 import streamlit as st
 
-from charts import mostrar_dashboard
-from compliance_rules import enriquecer_registros, validar_columnas
-from config import ARCHIVO_DATOS, MODELO_PREDETERMINADO
-from knowledge_base import recuperar_contexto_interno
-from ollama_client import (
+sys.path.insert(0, str(Path(__file__).parent / "src"))
+
+from monitor_normativo.charts import mostrar_dashboard
+from monitor_normativo.compliance_rules import enriquecer_registros, validar_columnas
+from monitor_normativo.config import ARCHIVO_DATOS, MODELO_PREDETERMINADO
+from monitor_normativo.knowledge_base import recuperar_contexto_interno
+from monitor_normativo.ollama_client import (
     descargar_modelo_ollama,
     generar_explicacion_legal,
     obtener_modelos_ollama,
     ollama_esta_activo,
 )
-from reporting import construir_resumen_ejecutivo
+from monitor_normativo.reporting import construir_resumen_ejecutivo
 
 
 COLUMNAS_TABLA = [

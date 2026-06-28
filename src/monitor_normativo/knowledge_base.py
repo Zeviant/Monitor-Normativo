@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from config import CARPETA_BASE
+from .config import CARPETA_BASE
 
 
 CARPETA_CONOCIMIENTO = CARPETA_BASE / "knowledge_base"

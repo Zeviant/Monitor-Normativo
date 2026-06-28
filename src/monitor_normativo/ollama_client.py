@@ -3,8 +3,8 @@ import json
 import pandas as pd
 import requests
 
-from config import URL_OLLAMA
-from knowledge_base import recuperar_contexto_interno
+from .config import URL_OLLAMA
+from .knowledge_base import recuperar_contexto_interno
 
 
 def obtener_modelos_ollama() -> list[str]:

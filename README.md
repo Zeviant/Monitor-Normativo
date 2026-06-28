@@ -30,10 +30,10 @@ Dashboard en Streamlit que analiza logs técnicos de reportes CRC y los conviert
 |---:|---|---|
 | 1 | `generate_dataset.py` | Genera 100 registros CRC sintéticos. |
 | 2 | `main.py` | Carga el CSV generado o uno subido por el usuario. |
-| 3 | `compliance_rules.py` | Asigna severidad, tipo de incidencia y acción base. |
-| 4 | `knowledge_base.py` + `knowledge_base/*.md` | Recupera documentos internos relevantes mediante mini RAG. |
-| 5 | `ollama_client.py` | Envía el prompt a Ollama y recibe la explicación. |
-| 6 | `reporting.py` | Exporta CSV analizado y resumen ejecutivo. |
+| 3 | `src/monitor_normativo/compliance_rules.py` | Asigna severidad, tipo de incidencia y acción base. |
+| 4 | `src/monitor_normativo/knowledge_base.py` + `knowledge_base/*.md` | Recupera documentos internos relevantes mediante mini RAG. |
+| 5 | `src/monitor_normativo/ollama_client.py` | Envía el prompt a Ollama y recibe la explicación. |
+| 6 | `src/monitor_normativo/reporting.py` | Exporta CSV analizado y resumen ejecutivo. |
 
 ## Interfaz
 
@@ -92,13 +92,13 @@ ollama serve
 ## Estructura
 
 ```text
-main.py                 Interfaz principal
-charts.py               Métricas y gráficas
-compliance_rules.py     Reglas de clasificación
-knowledge_base.py       Mini RAG
-knowledge_base/*.md     Documentos internos consultados por el RAG
-ollama_client.py        Prompt y conexión con Ollama
-reporting.py            Exportación de reportes
-generate_dataset.py     Datos sintéticos
-config.py               Configuración base
+main.py                              Entrada de Streamlit
+generate_dataset.py                  Datos sintéticos
+src/monitor_normativo/charts.py      Métricas y gráficas
+src/monitor_normativo/compliance_rules.py  Reglas de clasificación
+src/monitor_normativo/knowledge_base.py    Mini RAG
+src/monitor_normativo/ollama_client.py     Prompt y conexión con Ollama
+src/monitor_normativo/reporting.py         Exportación de reportes
+src/monitor_normativo/config.py            Configuración base
+knowledge_base/*.md                  Documentos internos consultados por el RAG
 ```
