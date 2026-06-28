@@ -104,16 +104,21 @@ def validar_columnas(datos_originales: pd.DataFrame) -> set[str]:
     return COLUMNAS_REQUERIDAS.difference(datos_originales.columns)
 
 
+def obtener_regla(codigo_error: str) -> ReglaCumplimiento:
+    """Devuelve la regla aprobada para un código de error."""
+    return REGLAS_ERRORES.get(codigo_error, REGLAS_ERRORES["UNKNOWN_ERROR"])
+
+
 def enriquecer_registros(datos_originales: pd.DataFrame) -> pd.DataFrame:
     """Añade campos comprensibles para negocio sin alterar los datos de origen."""
     registros = datos_originales.copy().fillna("")
     registros["codigo_error"] = registros["codigo_error"].astype(str).str.strip().str.upper()
     registros.loc[registros["codigo_error"] == "", "codigo_error"] = "UNKNOWN_ERROR"
 
-    reglas = registros["codigo_error"].map(REGLAS_ERRORES).fillna(REGLAS_ERRORES["UNKNOWN_ERROR"])
-    registros["severidad"] = reglas.map(lambda regla: regla.severidad)
-    registros["tipo_incidencia"] = reglas.map(lambda regla: regla.tipo_incidencia)
-    registros["accion_recomendada"] = reglas.map(lambda regla: regla.accion_recomendada)
+    reglas = [obtener_regla(codigo_error) for codigo_error in registros["codigo_error"]]
+    registros["severidad"] = [regla.severidad for regla in reglas]
+    registros["tipo_incidencia"] = [regla.tipo_incidencia for regla in reglas]
+    registros["accion_recomendada"] = [regla.accion_recomendada for regla in reglas]
     registros["resultado"] = registros["codigo_error"].map(
         lambda code: "Válido" if code == "OK" else "Con incidencias"
     )
