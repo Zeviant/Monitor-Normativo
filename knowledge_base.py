@@ -1,45 +1,80 @@
+from dataclasses import dataclass
+from pathlib import Path
+
 import pandas as pd
 
-
-BASE_CONOCIMIENTO_INTERNA = [
-    {
-        "title": "Guía interna: identificación fiscal",
-        "keywords": ["MISSING_TAX_ID", "INVALID_TAX_ID", "identificación", "fiscal"],
-        "content": "Los reportes CRC deben incluir una identificación fiscal clara de la entidad. Si falta o no coincide con el formato esperado, Legal debe pedir corrección antes de considerar el reporte como completo.",
-    },
-    {
-        "title": "Guía interna: fechas y plazos",
-        "keywords": ["INVALID_DATE", "FUTURE_DATE", "LATE_SUBMISSION", "fecha", "plazo"],
-        "content": "Las fechas permiten confirmar a qué período pertenece el reporte y si fue presentado a tiempo. Fechas ausentes, futuras o tardías requieren revisión antes de continuar.",
-    },
-    {
-        "title": "Guía interna: importes financieros",
-        "keywords": ["TOTAL_MISMATCH", "NEGATIVE_AMOUNT", "INVALID_AMOUNT", "importe", "total"],
-        "content": "Los importes deben ser legibles y consistentes. Si los totales no cuadran o aparece un valor inesperado, se debe conciliar la información antes de reenviar.",
-    },
-    {
-        "title": "Guía interna: duplicados e identificadores",
-        "keywords": ["DUPLICATE_REPORT", "MISSING_REPORT_ID", "duplicado", "id_reporte"],
-        "content": "Cada reporte debe poder rastrearse con un identificador único. Si el identificador falta o parece repetido, se debe confirmar el envío anterior y evitar doble presentación.",
-    },
-    {
-        "title": "Guía interna: problemas técnicos de envío",
-        "keywords": ["CONNECTION_TIMEOUT", "MALFORMED_PAYLOAD", "ENCODING_ERROR", "envío", "archivo"],
-        "content": "Algunos errores provienen del envío o del formato del archivo, no necesariamente del contenido legal. Conviene reintentar, regenerar el archivo o pedir apoyo técnico.",
-    },
-    {
-        "title": "Guía interna: errores desconocidos",
-        "keywords": ["UNKNOWN_ERROR", "desconocido", "sin clasificar"],
-        "content": "Si el sistema no reconoce el error, no se debe asumir una causa legal. La entrada debe pasar primero por revisión técnica.",
-    },
-]
+from config import CARPETA_BASE
 
 
-def recuperar_contexto_interno(registro: pd.Series) -> str:
-    """Mini RAG: recupera notas internas relevantes para enriquecer el prompt."""
-    texto_busqueda = f"{registro['codigo_error']} {registro['mensaje_tecnico']} {registro['tipo_incidencia']}".lower()
-    coincidencias = []
-    for documento in BASE_CONOCIMIENTO_INTERNA:
-        if any(palabra_clave.lower() in texto_busqueda for palabra_clave in documento["keywords"]):
-            coincidencias.append(f"- {documento['title']}: {documento['content']}")
-    return "\n".join(coincidencias[:2]) or "- No hay una guía interna específica; solicitar revisión técnica si el caso no es claro."
+CARPETA_CONOCIMIENTO = CARPETA_BASE / "knowledge_base"
+
+
+@dataclass(frozen=True)
+class DocumentoConocimiento:
+    titulo: str
+    palabras_clave: list[str]
+    contenido: str
+
+
+def leer_documento_markdown(ruta: Path) -> DocumentoConocimiento:
+    """Lee una nota interna en Markdown con metadatos simples."""
+    texto = ruta.read_text(encoding="utf-8").strip()
+    metadatos: dict[str, str] = {}
+    contenido = texto
+
+    if texto.startswith("---"):
+        _, bloque_metadatos, contenido = texto.split("---", 2)
+        for linea in bloque_metadatos.strip().splitlines():
+            clave, valor = linea.split(":", 1)
+            metadatos[clave.strip()] = valor.strip()
+
+    palabras_clave = [
+        palabra.strip()
+        for palabra in metadatos.get("palabras_clave", "").split(",")
+        if palabra.strip()
+    ]
+    return DocumentoConocimiento(
+        titulo=metadatos.get("titulo", ruta.stem.replace("_", " ").title()),
+        palabras_clave=palabras_clave,
+        contenido=contenido.strip(),
+    )
+
+
+def cargar_documentos_conocimiento() -> list[DocumentoConocimiento]:
+    """Carga las notas internas usadas por el mini RAG."""
+    return [leer_documento_markdown(ruta) for ruta in sorted(CARPETA_CONOCIMIENTO.glob("*.md"))]
+
+
+def puntuar_documento(documento: DocumentoConocimiento, texto_busqueda: str) -> int:
+    """Calcula relevancia por coincidencias entre palabras clave y el registro seleccionado."""
+    puntaje = 0
+    for palabra_clave in documento.palabras_clave:
+        if palabra_clave.lower() in texto_busqueda:
+            puntaje += 2 if palabra_clave.isupper() else 1
+    return puntaje
+
+
+def recuperar_contexto_interno(registro: pd.Series, limite: int = 2) -> str:
+    """Mini RAG: recupera las notas internas más relevantes para enriquecer el prompt."""
+    texto_busqueda = (
+        f"{registro['codigo_error']} "
+        f"{registro['mensaje_tecnico']} "
+        f"{registro['tipo_incidencia']}"
+    ).lower()
+    documentos_puntuados = [
+        (puntuar_documento(documento, texto_busqueda), documento)
+        for documento in cargar_documentos_conocimiento()
+    ]
+    documentos_relevantes = [
+        documento
+        for puntaje, documento in sorted(documentos_puntuados, key=lambda item: item[0], reverse=True)
+        if puntaje > 0
+    ][:limite]
+
+    if not documentos_relevantes:
+        return "- No hay una guía interna específica; solicitar revisión técnica si el caso no es claro."
+
+    return "\n".join(
+        f"- {documento.titulo}: {documento.contenido.replace(chr(10), ' ')}"
+        for documento in documentos_relevantes
+    )

@@ -31,7 +31,7 @@ Dashboard en Streamlit que analiza logs técnicos de reportes CRC y los conviert
 | 1 | `generate_dataset.py` | Genera 100 registros CRC sintéticos. |
 | 2 | `main.py` | Carga el CSV generado o uno subido por el usuario. |
 | 3 | `compliance_rules.py` | Asigna severidad, tipo de incidencia y acción base. |
-| 4 | `knowledge_base.py` | Recupera contexto interno relevante mediante mini RAG. |
+| 4 | `knowledge_base.py` + `knowledge_base/*.md` | Recupera documentos internos relevantes mediante mini RAG. |
 | 5 | `ollama_client.py` | Envía el prompt a Ollama y recibe la explicación. |
 | 6 | `reporting.py` | Exporta CSV analizado y resumen ejecutivo. |
 
@@ -52,7 +52,7 @@ Dashboard en Streamlit que analiza logs técnicos de reportes CRC y los conviert
 |---|---|
 | CRISPE | Estructura el prompt con contexto, rol, intención, pasos, presentación y evaluación. |
 | Two-shot prompting | Incluye dos ejemplos para guiar tono, formato y nivel de detalle. |
-| Mini RAG | Recupera notas internas desde `knowledge_base.py` antes de generar la explicación. |
+| Mini RAG | Puntúa documentos `.md` por coincidencias y agrega el contexto más relevante al prompt. |
 | Self-consistency ligera | En modo mejorado, genera varias alternativas y muestra la más clara. |
 
 ## Datos sintéticos
@@ -96,6 +96,7 @@ main.py                 Interfaz principal
 charts.py               Métricas y gráficas
 compliance_rules.py     Reglas de clasificación
 knowledge_base.py       Mini RAG
+knowledge_base/*.md     Documentos internos consultados por el RAG
 ollama_client.py        Prompt y conexión con Ollama
 reporting.py            Exportación de reportes
 generate_dataset.py     Datos sintéticos
