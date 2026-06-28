@@ -26,6 +26,8 @@ Dashboard en Streamlit que analiza logs técnicos de reportes CRC y los conviert
 
 ## Flujo del sistema
 
+<img src="assets/readme/flowchart.png" alt="Flowchart del sistema" width="900">
+
 | Paso | Archivo | Resultado |
 |---:|---|---|
 | 1 | `generate_dataset.py` | Genera 100 registros CRC sintéticos. |
@@ -44,7 +46,10 @@ Dashboard en Streamlit que analiza logs técnicos de reportes CRC y los conviert
 | Tabla de registros | <img src="assets/readme/tabla-registros.png" alt="Tabla de registros" width="520"> |
 | Incidencias frecuentes | <img src="assets/readme/incidencias-frecuentes.png" alt="Incidencias frecuentes" width="520"> |
 | Inspector de entrada | <img src="assets/readme/inspector.png" alt="Inspector" width="520"> |
+| Contexto RAG recuperado | <img src="assets/readme/contexto-rag.png" alt="Contexto RAG" width="520"> |
 | Explicación generada | <img src="assets/readme/explicacion-ia.png" alt="Explicación IA" width="520"> |
+| Exportación | <img src="assets/readme/exportacion.png" alt="Exportación de resultados" width="520"> |
+| Resumen Markdown | <img src="assets/readme/resumen-markdown.png" alt="Resumen ejecutivo Markdown" width="520"> |
 
 ## Técnicas de IA
 
