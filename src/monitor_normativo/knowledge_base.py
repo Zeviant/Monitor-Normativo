@@ -74,7 +74,7 @@ def recuperar_contexto_interno(registro: pd.Series, limite: int = 2) -> str:
     if not documentos_relevantes:
         return "- No hay una guía interna específica; solicitar revisión técnica si el caso no es claro."
 
-    return "\n".join(
-        f"- {documento.titulo}: {documento.contenido.replace(chr(10), ' ')}"
+    return "\n\n".join(
+        f"**{documento.titulo}**\n\n{documento.contenido.strip()}"
         for documento in documentos_relevantes
     )

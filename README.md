@@ -16,7 +16,7 @@ Dashboard en Streamlit que analiza logs técnicos de reportes CRC y los conviert
 
 | Componente | Uso |
 |---|---|
-| Python | Procesamiento, reglas, RAG simple y conexión con Ollama. |
+| Python | Procesamiento, reglas, mini RAG documental y conexión con Ollama. |
 | Streamlit | Interfaz, filtros, gráficas y selección de incidencias. |
 | Ollama | Ejecución local del modelo Llama 3.2. |
 
@@ -92,13 +92,16 @@ ollama serve
 ## Estructura
 
 ```text
-main.py                              Entrada de Streamlit
-generate_dataset.py                  Datos sintéticos
-src/monitor_normativo/charts.py      Métricas y gráficas
-src/monitor_normativo/compliance_rules.py  Reglas de clasificación
-src/monitor_normativo/knowledge_base.py    Mini RAG
-src/monitor_normativo/ollama_client.py     Prompt y conexión con Ollama
-src/monitor_normativo/reporting.py         Exportación de reportes
-src/monitor_normativo/config.py            Configuración base
-knowledge_base/*.md                  Documentos internos consultados por el RAG
+main.py                                  Entrada de Streamlit
+generate_dataset.py                      Generación de datos sintéticos
+data/                                    Dataset CSV de ejemplo
+assets/readme/                           Capturas usadas en este README
+knowledge_base/*.md                      Documentos internos consultados por el RAG
+src/monitor_normativo/__init__.py        Paquete de la aplicación
+src/monitor_normativo/charts.py          Métricas y gráficas
+src/monitor_normativo/compliance_rules.py Reglas de clasificación
+src/monitor_normativo/config.py          Configuración base
+src/monitor_normativo/knowledge_base.py  Recuperación de contexto interno
+src/monitor_normativo/ollama_client.py   Prompt y conexión con Ollama
+src/monitor_normativo/reporting.py       Exportación de reportes
 ```
