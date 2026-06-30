@@ -12,15 +12,13 @@ Dashboard en Streamlit que analiza logs técnicos de reportes CRC y los conviert
 | Legal no entiende mensajes técnicos como `Violación de unicidad`. | Ollama genera una explicación simple con impacto y acción recomendada. |
 | Revisar logs manualmente toma tiempo. | El dashboard resume, filtra, prioriza y exporta resultados. |
 
-## Stack
+## Stack y Arquitectura
 
 | Componente | Uso |
 |---|---|
 | Python | Procesamiento, reglas, mini RAG documental y conexión con Ollama. |
 | Streamlit | Interfaz, filtros, gráficas y selección de incidencias. |
 | Ollama | Ejecución local del modelo Llama 3.2. |
-
-## Arquitectura
 
 <img src="assets/readme/arquitectura.png" alt="Arquitectura del sistema" width="760">
 
