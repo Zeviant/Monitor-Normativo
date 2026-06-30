@@ -31,6 +31,14 @@ COLUMNAS_TABLA = [
     "mensaje_tecnico",
 ]
 
+ORDEN_PRIORIDAD = {
+    "Crítica": 1,
+    "Alta": 2,
+    "Media": 3,
+    "Baja": 4,
+    "Requiere revisión": 5,
+}
+
 
 def cargar_datos_ejemplo() -> pd.DataFrame:
     """Carga el dataset sintético incluido en el proyecto."""
@@ -115,6 +123,33 @@ def mostrar_filtros(registros: pd.DataFrame):
 def mostrar_tabla_registros(registros_filtrados: pd.DataFrame) -> None:
     st.subheader("Entradas de cumplimiento")
     st.dataframe(registros_filtrados[COLUMNAS_TABLA], width="stretch", hide_index=True)
+
+
+def mostrar_casos_prioritarios(registros_filtrados: pd.DataFrame) -> None:
+    st.subheader("Casos prioritarios")
+    casos_prioritarios = registros_filtrados.loc[
+        registros_filtrados["resultado"] == "Con incidencias"
+    ].copy()
+    casos_prioritarios["prioridad"] = casos_prioritarios["severidad"].map(ORDEN_PRIORIDAD).fillna(99)
+    casos_prioritarios = casos_prioritarios.sort_values(["prioridad", "fecha_hora"]).head(8)
+
+    if casos_prioritarios.empty:
+        st.info("No hay incidencias para priorizar con los filtros actuales.")
+        return
+
+    st.dataframe(
+        casos_prioritarios[
+            [
+                "id_reporte",
+                "entidad",
+                "severidad",
+                "tipo_incidencia",
+                "codigo_error",
+            ]
+        ],
+        width="stretch",
+        hide_index=True,
+    )
 
 
 def mostrar_inspector_registro(registros_filtrados: pd.DataFrame, modelo_seleccionado: str, modo_explicacion: str) -> None:
@@ -217,6 +252,7 @@ def main() -> None:
     registros_filtrados = filtrar_registros(registros, *filtros)
     mostrar_dashboard(registros_filtrados)
     mostrar_tabla_registros(registros_filtrados)
+    mostrar_casos_prioritarios(registros_filtrados)
     mostrar_inspector_registro(registros_filtrados, modelo_seleccionado, modo_explicacion)
     mostrar_exportaciones(registros_filtrados)
 

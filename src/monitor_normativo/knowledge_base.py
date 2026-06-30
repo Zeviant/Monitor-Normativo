@@ -14,6 +14,7 @@ class DocumentoConocimiento:
     titulo: str
     palabras_clave: list[str]
     contenido: str
+    fuente: str
 
 
 def leer_documento_markdown(ruta: Path) -> DocumentoConocimiento:
@@ -37,6 +38,7 @@ def leer_documento_markdown(ruta: Path) -> DocumentoConocimiento:
         titulo=metadatos.get("titulo", ruta.stem.replace("_", " ").title()),
         palabras_clave=palabras_clave,
         contenido=contenido.strip(),
+        fuente=str(ruta.relative_to(CARPETA_BASE)).replace("\\", "/"),
     )
 
 
@@ -75,6 +77,8 @@ def recuperar_contexto_interno(registro: pd.Series, limite: int = 2) -> str:
         return "- No hay una guía interna específica; solicitar revisión técnica si el caso no es claro."
 
     return "\n\n".join(
-        f"**{documento.titulo}**\n\n{documento.contenido.strip()}"
+        f"**{documento.titulo}**\n\n"
+        f"*Fuente: `{documento.fuente}`*\n\n"
+        f"{documento.contenido.strip()}"
         for documento in documentos_relevantes
     )

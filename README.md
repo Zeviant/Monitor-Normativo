@@ -44,6 +44,7 @@ Dashboard en Streamlit que analiza logs técnicos de reportes CRC y los conviert
 | Modelo local | <img src="assets/readme/modelo-local.png" alt="Modelo local" width="320"> |
 | Modo de explicación | <img src="assets/readme/modo-explicacion.png" alt="Modo de explicación" width="320"> |
 | Tabla de registros | <img src="assets/readme/tabla-registros.png" alt="Tabla de registros" width="520"> |
+| Casos prioritarios | <img src="assets/readme/casos-prioritarios.png" alt="Casos prioritarios" width="520"> |
 | Incidencias frecuentes | <img src="assets/readme/incidencias-frecuentes.png" alt="Incidencias frecuentes" width="520"> |
 | Inspector de entrada | <img src="assets/readme/inspector.png" alt="Inspector" width="520"> |
 | Contexto RAG recuperado | <img src="assets/readme/contexto-rag.png" alt="Contexto RAG" width="520"> |
@@ -59,6 +60,16 @@ Dashboard en Streamlit que analiza logs técnicos de reportes CRC y los conviert
 | Two-shot prompting | Incluye dos ejemplos para guiar tono, formato y nivel de detalle. |
 | Mini RAG | Puntúa documentos `.md` por coincidencias y agrega el contexto más relevante al prompt. |
 | Self-consistency ligera | En modo mejorado, genera varias alternativas y muestra la más clara. |
+
+## Priorización
+
+Debajo de la tabla principal, el dashboard muestra los casos más urgentes según severidad:
+
+```text
+Crítica → Alta → Media → Baja → Requiere revisión
+```
+
+El contexto recuperado por RAG también muestra el archivo fuente consultado.
 
 ## Datos sintéticos
 
